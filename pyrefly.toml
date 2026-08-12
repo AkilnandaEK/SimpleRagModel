@@ -1,0 +1,11 @@
+# pyrefly.toml
+# Pyrefly 1.2.x type-checker configuration for P:\week3
+# Uses flat top-level keys (no [python] / [project] sections).
+# Locks Pyrefly to the project virtual environment so that all
+# site-packages (FastAPI, pydantic, chromadb, etc.) are visible to the checker.
+
+# Point to the venv interpreter; Pyrefly queries it for site-packages paths.
+python_interpreter = ".venv/Scripts/python.exe"
+
+# Only check files inside the app package; ignore .venv, tests, etc.
+project_includes = ["app"]

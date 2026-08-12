@@ -1,0 +1,11 @@
+{
+  // Lock VS Code's Python extension to the project venv
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+
+  // Use Pyrefly as the type-checker (disable Pylance's own type checking
+  // so they don't conflict)
+  "python.analysis.typeCheckingMode": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  }
+}
