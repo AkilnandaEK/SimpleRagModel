@@ -1,0 +1,40 @@
+# ── Secrets & environment ────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python ───────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Vector store data (local index) ──────────────────────────────
+chroma_db/
+
+# ── Build artifacts ──────────────────────────────────────────────
+build/
+dist/
+
+# ── Flutter / Dart tooling ───────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+
+# ── IDE / editor ─────────────────────────────────────────────────
+.vscode/
+.idea/
+
+# ── OS junk ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs & temp ──────────────────────────────────────────────────
+*.log
+*.tmp

@@ -1,0 +1,202 @@
+{
+  "collection_name": "sdk-v3-strategy-a",
+  "top_k": 5,
+  "query_count": 12,
+  "mrr": 0.8958,
+  "evaluations": [
+    {
+      "id": "Q1",
+      "question": "How do I authenticate with the v3 SDK?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_1"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_9",
+        "v3_sdk_corpus__chunk_12",
+        "v3_sdk_corpus__chunk_7",
+        "v3_sdk_corpus__chunk_1"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q2",
+      "question": "Which class do I use for bearer token authentication?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_1"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_1",
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_10",
+        "v3_sdk_corpus__chunk_6",
+        "v3_sdk_corpus__chunk_9"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q3",
+      "question": "What does Client.batch_send() do?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_2"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_2",
+        "v3_sdk_corpus__chunk_3",
+        "v3_sdk_corpus__chunk_4",
+        "v3_sdk_corpus__chunk_5",
+        "v3_sdk_corpus__chunk_0"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q4",
+      "question": "What is the default number of concurrent worker threads for batch processing?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_3"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_3",
+        "v3_sdk_corpus__chunk_2",
+        "v3_sdk_corpus__chunk_7",
+        "v3_sdk_corpus__chunk_6",
+        "v3_sdk_corpus__chunk_10"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q5",
+      "question": "What does the Client.send() method do?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_4"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_4",
+        "v3_sdk_corpus__chunk_5",
+        "v3_sdk_corpus__chunk_6",
+        "v3_sdk_corpus__chunk_2",
+        "v3_sdk_corpus__chunk_7"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q6",
+      "question": "What is the syntax for calling client.send() with a payload?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_5"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_5",
+        "v3_sdk_corpus__chunk_4",
+        "v3_sdk_corpus__chunk_10",
+        "v3_sdk_corpus__chunk_2",
+        "v3_sdk_corpus__chunk_13"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q7",
+      "question": "What is the default value of max_retries?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_6"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_6",
+        "v3_sdk_corpus__chunk_5",
+        "v3_sdk_corpus__chunk_7",
+        "v3_sdk_corpus__chunk_10",
+        "v3_sdk_corpus__chunk_2"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q8",
+      "question": "What does ClientConfig manage?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_7"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_7",
+        "v3_sdk_corpus__chunk_8",
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_4",
+        "v3_sdk_corpus__chunk_2"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q9",
+      "question": "Which environment variable sets the SDK log level?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_8"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_7",
+        "v3_sdk_corpus__chunk_8",
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_9",
+        "v3_sdk_corpus__chunk_12"
+      ],
+      "first_relevant_rank": 2,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q10",
+      "question": "What base class do all v3 SDK exceptions inherit from?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_9"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_9",
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_8",
+        "v3_sdk_corpus__chunk_12",
+        "v3_sdk_corpus__chunk_7"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q11",
+      "question": "Which exception is raised when credentials are invalid or expired?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_10"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_1",
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_9",
+        "v3_sdk_corpus__chunk_10",
+        "v3_sdk_corpus__chunk_13"
+      ],
+      "first_relevant_rank": 4,
+      "reciprocal_rank": 0.25
+    },
+    {
+      "id": "Q12",
+      "question": "How do I verify a webhook signature?",
+      "expected_chunk_ids": [
+        "v3_sdk_corpus__chunk_13",
+        "v3_sdk_corpus__chunk_12"
+      ],
+      "retrieved_chunk_ids": [
+        "v3_sdk_corpus__chunk_12",
+        "v3_sdk_corpus__chunk_13",
+        "v3_sdk_corpus__chunk_1",
+        "v3_sdk_corpus__chunk_0",
+        "v3_sdk_corpus__chunk_10"
+      ],
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0
+    }
+  ]
+}
