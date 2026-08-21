@@ -1,36 +1,40 @@
-# Python virtual environment
-.venv/
-venv/
-env/
-
-# Environment variables / secrets
+# ── Secrets & environment ────────────────────────────────────────
 .env
 .env.*
 !.env.example
 
-# Python cache
+# ── Python ───────────────────────────────────────────────────────
+.venv/
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# ChromaDB / vector database
+# ── Vector store data (local index) ──────────────────────────────
 chroma_db/
 
-# Frontend dependencies
-frontend/node_modules/
+# ── Build artifacts ──────────────────────────────────────────────
+build/
+dist/
 
-# Frontend build output
-frontend/dist/
-frontend/build/
+# ── Flutter / Dart tooling ───────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
 
-# IDE
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
+# ── IDE / editor ─────────────────────────────────────────────────
+.vscode/
+.idea/
 
-# OS files
+# ── OS junk ──────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Logs
+# ── Logs & temp ──────────────────────────────────────────────────
 *.log
+*.tmp

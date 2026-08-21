@@ -32,7 +32,9 @@ class _UploadDialogState extends State<UploadDialog> {
         if (_collectionController.text.isEmpty && _selectedFile != null) {
           // Pre-fill collection name from filename stem
           final nameStem = _selectedFile!.name.split('.').first;
-          _collectionController.text = nameStem.replaceAll(RegExp(r'[^a-zA-Z0-9-]'), '-').toLowerCase();
+          _collectionController.text = nameStem
+              .replaceAll(RegExp(r'[^a-zA-Z0-9-]'), '-')
+              .toLowerCase();
         }
       });
     }
@@ -64,7 +66,9 @@ class _UploadDialogState extends State<UploadDialog> {
           SnackBar(
             backgroundColor: const Color(0xFF10B981),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
             content: Row(
               children: [
                 const Icon(Icons.check_circle, color: Colors.white),
@@ -72,7 +76,10 @@ class _UploadDialogState extends State<UploadDialog> {
                 Expanded(
                   child: Text(
                     'Indexed "${res.filename}" into collection "${res.collectionName}" (${res.chunksStored} chunks)',
-                    style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.w500),
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -117,7 +124,10 @@ class _UploadDialogState extends State<UploadDialog> {
                         color: const Color(0xFF6366F1).withOpacity(0.15),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(Icons.upload_file, color: Color(0xFF818CF8)),
+                      child: const Icon(
+                        Icons.upload_file,
+                        color: Color(0xFF818CF8),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Text(
@@ -132,7 +142,9 @@ class _UploadDialogState extends State<UploadDialog> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close, color: Color(0xFF94A3B8)),
-                  onPressed: _isUploading ? null : () => Navigator.of(context).pop(),
+                  onPressed: _isUploading
+                      ? null
+                      : () => Navigator.of(context).pop(),
                 ),
               ],
             ),
@@ -144,12 +156,17 @@ class _UploadDialogState extends State<UploadDialog> {
               borderRadius: BorderRadius.circular(12),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF0F172A),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: _selectedFile != null ? const Color(0xFF6366F1) : const Color(0xFF475569),
+                    color: _selectedFile != null
+                        ? const Color(0xFF6366F1)
+                        : const Color(0xFF475569),
                     width: _selectedFile != null ? 2 : 1,
                     style: BorderStyle.solid,
                   ),
@@ -157,9 +174,13 @@ class _UploadDialogState extends State<UploadDialog> {
                 child: Column(
                   children: [
                     Icon(
-                      _selectedFile != null ? Icons.picture_as_pdf : Icons.cloud_upload_outlined,
+                      _selectedFile != null
+                          ? Icons.picture_as_pdf
+                          : Icons.cloud_upload_outlined,
                       size: 40,
-                      color: _selectedFile != null ? const Color(0xFFEF4444) : const Color(0xFF94A3B8),
+                      color: _selectedFile != null
+                          ? const Color(0xFFEF4444)
+                          : const Color(0xFF94A3B8),
                     ),
                     const SizedBox(height: 12),
                     Text(
@@ -167,7 +188,9 @@ class _UploadDialogState extends State<UploadDialog> {
                           ? _selectedFile!.name
                           : 'Click to select a PDF document',
                       style: GoogleFonts.inter(
-                        color: _selectedFile != null ? Colors.white : const Color(0xFFCBD5E1),
+                        color: _selectedFile != null
+                            ? Colors.white
+                            : const Color(0xFFCBD5E1),
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
                       ),
@@ -177,9 +200,12 @@ class _UploadDialogState extends State<UploadDialog> {
                       const SizedBox(height: 4),
                       Text(
                         '${(_selectedFile!.size / 1024).toStringAsFixed(1)} KB',
-                        style: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 12),
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF94A3B8),
+                          fontSize: 12,
+                        ),
                       ),
-                    ]
+                    ],
                   ],
                 ),
               ),
@@ -205,7 +231,10 @@ class _UploadDialogState extends State<UploadDialog> {
                 hintStyle: GoogleFonts.inter(color: const Color(0xFF64748B)),
                 filled: true,
                 fillColor: const Color(0xFF0F172A),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(color: Color(0xFF334155)),
@@ -229,16 +258,25 @@ class _UploadDialogState extends State<UploadDialog> {
                 decoration: BoxDecoration(
                   color: const Color(0xFFEF4444).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFEF4444).withOpacity(0.3)),
+                  border: Border.all(
+                    color: const Color(0xFFEF4444).withOpacity(0.3),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.error_outline, color: Color(0xFFF87171), size: 18),
+                    const Icon(
+                      Icons.error_outline,
+                      color: Color(0xFFF87171),
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _errorMessage!,
-                        style: GoogleFonts.inter(color: const Color(0xFFF87171), fontSize: 13),
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFFF87171),
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   ],
@@ -250,7 +288,9 @@ class _UploadDialogState extends State<UploadDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: _isUploading ? null : () => Navigator.of(context).pop(),
+                  onPressed: _isUploading
+                      ? null
+                      : () => Navigator.of(context).pop(),
                   child: Text(
                     'Cancel',
                     style: GoogleFonts.inter(color: const Color(0xFF94A3B8)),
@@ -262,8 +302,13 @@ class _UploadDialogState extends State<UploadDialog> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6366F1),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                   child: _isUploading
                       ? const SizedBox(

@@ -1,0 +1,79 @@
+{
+  "collection_name": "sdk-v3-strategy-a",
+  "default_split": "test",
+  "_comment": "Graded queries for MRR@k. 'expected_chunk_ids' are the chunks that genuinely answer the question; MRR credits only the first one retrieved. Chunk IDs follow the '<source_filename>__chunk_<index>' scheme written by vector_store.add_chunks(). Splits are stratified so 'dev' and 'test' each span the source documents: tune on dev, keep test held out.",
+  "queries": [
+    {
+      "id": "Q1",
+      "split": "dev",
+      "question": "How do I authenticate with the v3 SDK?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_0", "v3_sdk_corpus__chunk_1"]
+    },
+    {
+      "id": "Q2",
+      "split": "test",
+      "question": "Which class do I use for bearer token authentication?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_1"]
+    },
+    {
+      "id": "Q3",
+      "split": "dev",
+      "question": "What does Client.batch_send() do?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_2"]
+    },
+    {
+      "id": "Q4",
+      "split": "test",
+      "question": "What is the default number of concurrent worker threads for batch processing?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_3"]
+    },
+    {
+      "id": "Q5",
+      "split": "dev",
+      "question": "What does the Client.send() method do?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_4"]
+    },
+    {
+      "id": "Q6",
+      "split": "test",
+      "question": "What is the syntax for calling client.send() with a payload?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_5"]
+    },
+    {
+      "id": "Q7",
+      "split": "test",
+      "question": "What is the default value of max_retries?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_6"]
+    },
+    {
+      "id": "Q8",
+      "split": "dev",
+      "question": "What does ClientConfig manage?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_7"]
+    },
+    {
+      "id": "Q9",
+      "split": "test",
+      "question": "Which environment variable sets the SDK log level?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_8"]
+    },
+    {
+      "id": "Q10",
+      "split": "dev",
+      "question": "What base class do all v3 SDK exceptions inherit from?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_9"]
+    },
+    {
+      "id": "Q11",
+      "split": "test",
+      "question": "Which exception is raised when credentials are invalid or expired?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_10"]
+    },
+    {
+      "id": "Q12",
+      "split": "dev",
+      "question": "How do I verify a webhook signature?",
+      "expected_chunk_ids": ["v3_sdk_corpus__chunk_13", "v3_sdk_corpus__chunk_12"]
+    }
+  ]
+}
