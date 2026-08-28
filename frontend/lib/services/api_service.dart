@@ -6,8 +6,6 @@ import '../models/rag_models.dart';
 class ApiService {
   static String get baseUrl {
     if (kIsWeb) {
-      // In web, if hosted on the same origin (FastAPI), use relative or current origin.
-      // For local flutter dev server, default to http://127.0.0.1:8000
       final Uri currentUri = Uri.base;
       if (currentUri.port == 8000) {
         return '${currentUri.scheme}://${currentUri.host}:${currentUri.port}';
@@ -19,9 +17,9 @@ class ApiService {
   /// Check server health
   static Future<bool> checkHealth() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/')).timeout(
-            const Duration(seconds: 4),
-          );
+      final response = await http
+          .get(Uri.parse('$baseUrl/'))
+          .timeout(const Duration(seconds: 4));
       return response.statusCode == 200;
     } catch (_) {
       return false;
@@ -46,6 +44,8 @@ class ApiService {
     required List<int> bytes,
     required String filename,
     String collectionName = '',
+    String sdkVersion = 'v3',
+    String pageType = 'reference',
     int chunkSize = 0,
     int chunkOverlap = 0,
   }) async {
@@ -53,16 +53,15 @@ class ApiService {
     final request = http.MultipartRequest('POST', uri);
 
     request.files.add(
-      http.MultipartFile.fromBytes(
-        'file',
-        bytes,
-        filename: filename,
-      ),
+      http.MultipartFile.fromBytes('file', bytes, filename: filename),
     );
 
     if (collectionName.isNotEmpty) {
       request.fields['collection_name'] = collectionName;
     }
+    request.fields['sdk_version'] = sdkVersion;
+    request.fields['page_type'] = pageType;
+
     if (chunkSize > 0) {
       request.fields['chunk_size'] = chunkSize.toString();
     }
@@ -88,15 +87,23 @@ class ApiService {
     required String question,
     required String collectionName,
     int topK = 0,
+    String? sdkVersion,
+    bool debug = true,
   }) async {
+    final bodyMap = <String, dynamic>{
+      'question': question,
+      'collection_name': collectionName,
+      'top_k': topK,
+      'debug': debug,
+    };
+    if (sdkVersion != null && sdkVersion.isNotEmpty) {
+      bodyMap['sdk_version'] = sdkVersion;
+    }
+
     final response = await http.post(
       Uri.parse('$baseUrl/query'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'question': question,
-        'collection_name': collectionName,
-        'top_k': topK,
-      }),
+      body: jsonEncode(bodyMap),
     );
 
     if (response.statusCode == 200) {
@@ -107,6 +114,46 @@ class ApiService {
       final detail = errorData['detail'] ?? 'Query failed';
       throw Exception(detail);
     }
+  }
+
+  /// GET /eval/mrr
+  ///
+  /// Scores the golden set with MRR@k. [split] restricts to 'dev' or 'test';
+  /// null scores everything and still returns the per-split breakdown.
+  static Future<MrrReport> fetchMrrReport({
+    String? collectionName,
+    int topK = 0,
+    String? split,
+  }) async {
+    final params = <String, String>{};
+    if (collectionName != null && collectionName.isNotEmpty) {
+      params['collection_name'] = collectionName;
+    }
+    if (topK > 0) params['top_k'] = topK.toString();
+    if (split != null && split.isNotEmpty) params['split'] = split;
+
+    final uri = Uri.parse(
+      '$baseUrl/eval/mrr',
+    ).replace(queryParameters: params.isEmpty ? null : params);
+
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      return MrrReport.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
+    }
+
+    String detail = 'MRR evaluation failed (${response.statusCode})';
+    try {
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map && decoded['detail'] != null) {
+        detail = decoded['detail'].toString();
+      }
+    } catch (_) {
+      // Non-JSON error body — keep the status-code message.
+    }
+    throw Exception(detail);
   }
 
   /// DELETE /collections/{name}

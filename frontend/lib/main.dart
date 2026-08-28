@@ -16,7 +16,7 @@ class RagApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RAG Intelligence Hub',
+      title: 'RAG Intelligence Hub & Evaluation Lab',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -44,6 +44,7 @@ class MainWorkspace extends StatefulWidget {
 class _MainWorkspaceState extends State<MainWorkspace> {
   List<CollectionInfo> _collections = [];
   String? _selectedCollection;
+  bool _debugMode = true; // Evaluation & debug mode enabled by default
   final Map<String, List<ChatMessage>> _chatHistory = {};
   bool _isBackendConnected = false;
   Timer? _healthTimer;
@@ -52,8 +53,10 @@ class _MainWorkspaceState extends State<MainWorkspace> {
   void initState() {
     super.initState();
     _checkHealthAndLoad();
-    // Poll backend health every 10 seconds
-    _healthTimer = Timer.periodic(const Duration(seconds: 10), (_) => _checkHealth());
+    _healthTimer = Timer.periodic(
+      const Duration(seconds: 10),
+      (_) => _checkHealth(),
+    );
   }
 
   @override
@@ -127,6 +130,7 @@ class _MainWorkspaceState extends State<MainWorkspace> {
       final response = await ApiService.askQuestion(
         question: question,
         collectionName: currentCollection,
+        debug: _debugMode,
       );
 
       final aiMsg = ChatMessage(
@@ -135,6 +139,7 @@ class _MainWorkspaceState extends State<MainWorkspace> {
         text: response.answer,
         timestamp: DateTime.now(),
         sources: response.sources,
+        evaluation: response.evaluation,
       );
 
       setState(() {
@@ -179,6 +184,10 @@ class _MainWorkspaceState extends State<MainWorkspace> {
           Expanded(
             child: ChatView(
               selectedCollection: _selectedCollection,
+              debugMode: _debugMode,
+              onDebugModeChanged: (val) {
+                setState(() => _debugMode = val);
+              },
               messages: activeMessages,
               onSendQuestion: _onSendQuestion,
             ),

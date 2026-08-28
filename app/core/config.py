@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # ── Retrieval ───────────────────────────────────────────────
     top_k: int = 5
 
+    # ── Evaluation ──────────────────────────────────────────────
+    golden_set_path: str = "./eval/golden_set.sdk-v3.json"
+
 
 # Single shared instance — import this everywhere
 settings = Settings()

@@ -27,14 +27,20 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  Future<void> _confirmDelete(BuildContext context, String collectionName) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    String collectionName,
+  ) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF1E293B),
         title: Text(
           'Delete Collection?',
-          style: GoogleFonts.outfit(color: Colors.white, fontWeight: FontWeight.bold),
+          style: GoogleFonts.outfit(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         content: Text(
           'Permanently remove "$collectionName" and all its indexed chunks from ChromaDB?',
@@ -43,7 +49,10 @@ class Sidebar extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancel', style: GoogleFonts.inter(color: const Color(0xFF94A3B8))),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.inter(color: const Color(0xFF94A3B8)),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -51,7 +60,10 @@ class Sidebar extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Delete', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+            child: Text(
+              'Delete',
+              style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+            ),
           ),
         ],
       ),
@@ -71,9 +83,7 @@ class Sidebar extends StatelessWidget {
       width: 280,
       decoration: const BoxDecoration(
         color: Color(0xFF0F172A),
-        border: Border(
-          right: BorderSide(color: Color(0xFF1E293B), width: 1),
-        ),
+        border: Border(right: BorderSide(color: Color(0xFF1E293B), width: 1)),
       ),
       child: Column(
         children: [
@@ -93,7 +103,11 @@ class Sidebar extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                      child: const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -122,7 +136,9 @@ class Sidebar extends StatelessWidget {
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                isBackendConnected ? 'FastAPI Online' : 'Offline',
+                                isBackendConnected
+                                    ? 'FastAPI Online'
+                                    : 'Offline',
                                 style: GoogleFonts.inter(
                                   color: isBackendConnected
                                       ? const Color(0xFF10B981)
@@ -144,7 +160,9 @@ class Sidebar extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: isBackendConnected ? () => _showUploadDialog(context) : null,
+                    onPressed: isBackendConnected
+                        ? () => _showUploadDialog(context)
+                        : null,
                     icon: const Icon(Icons.add, size: 18),
                     label: Text(
                       'Upload PDF',
@@ -183,7 +201,11 @@ class Sidebar extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.refresh, size: 16, color: Color(0xFF64748B)),
+                  icon: const Icon(
+                    Icons.refresh,
+                    size: 16,
+                    color: Color(0xFF64748B),
+                  ),
                   onPressed: onRefresh,
                   tooltip: 'Refresh collections',
                   padding: EdgeInsets.zero,
@@ -202,11 +224,18 @@ class Sidebar extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.folder_open, size: 36, color: Colors.white.withOpacity(0.2)),
+                          Icon(
+                            Icons.folder_open,
+                            size: 36,
+                            color: Colors.white.withOpacity(0.2),
+                          ),
                           const SizedBox(height: 8),
                           Text(
                             'No documents indexed yet',
-                            style: GoogleFonts.inter(color: const Color(0xFF64748B), fontSize: 13),
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF64748B),
+                              fontSize: 13,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -214,7 +243,10 @@ class Sidebar extends StatelessWidget {
                     ),
                   )
                 : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     itemCount: collections.length,
                     itemBuilder: (context, index) {
                       final item = collections[index];
@@ -228,23 +260,36 @@ class Sidebar extends StatelessWidget {
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                           border: isSelected
-                              ? Border.all(color: const Color(0xFF6366F1).withOpacity(0.5))
+                              ? Border.all(
+                                  color: const Color(
+                                    0xFF6366F1,
+                                  ).withOpacity(0.5),
+                                )
                               : null,
                         ),
                         child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 0,
+                          ),
                           dense: true,
                           leading: Icon(
                             Icons.description_outlined,
-                            color: isSelected ? const Color(0xFF818CF8) : const Color(0xFF64748B),
+                            color: isSelected
+                                ? const Color(0xFF818CF8)
+                                : const Color(0xFF64748B),
                             size: 18,
                           ),
                           title: Text(
                             item.name,
                             style: GoogleFonts.inter(
-                              color: isSelected ? Colors.white : const Color(0xFFCBD5E1),
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xFFCBD5E1),
                               fontSize: 13,
-                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -258,8 +303,13 @@ class Sidebar extends StatelessWidget {
                           ),
                           trailing: isSelected
                               ? IconButton(
-                                  icon: const Icon(Icons.delete_outline, size: 16, color: Color(0xFFEF4444)),
-                                  onPressed: () => _confirmDelete(context, item.name),
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    size: 16,
+                                    color: Color(0xFFEF4444),
+                                  ),
+                                  onPressed: () =>
+                                      _confirmDelete(context, item.name),
                                   tooltip: 'Delete collection',
                                 )
                               : null,
