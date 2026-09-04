@@ -1,0 +1,253 @@
+[
+  {
+    "id": "eval_001",
+    "question": "How do I authenticate with the v3 SDK?",
+    "expected_behavior": "Explain that the v3 SDK requires explicit credentials and that bearer token auth is configured via the BearerTokenAuth class (or by passing api_key to ClientConfig). Reference authentication.md and the code example using 'from sdk_v3 import Client, BearerTokenAuth'.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_002",
+    "question": "Which class do I use for bearer token authentication?",
+    "expected_behavior": "Answer that the BearerTokenAuth class is used for bearer token authentication, and that you initialize the Client with auth=BearerTokenAuth(token=...).",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_003",
+    "question": "What does ClientConfig manage?",
+    "expected_behavior": "Explain that ClientConfig manages global runtime settings, timeout overrides, and connection pooling parameters for the v3 SDK.",
+    "taxonomy_mode": "conceptual_explanation",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_004",
+    "question": "What base class do all v3 SDK exceptions inherit from?",
+    "expected_behavior": "Answer that all v3 SDK exceptions inherit from the base SDKError class.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_005",
+    "question": "Which exception is raised when credentials are invalid or expired?",
+    "expected_behavior": "Answer that SDKAuthError is raised (error code ERR_AUTH_FAILED) when API credentials are invalid or expired, and that the recovery strategy is to re-authenticate and obtain a new token.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_006",
+    "question": "What is the default number of concurrent worker threads for batch processing?",
+    "expected_behavior": "Answer that the default concurrency for Client.batch_send() is 5 worker threads (the 'concurrency' parameter defaults to 5).",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_007",
+    "question": "What does the Client.send() method do?",
+    "expected_behavior": "Explain that Client.send() delivers API request payloads to downstream integration targets with configurable retry backoff and error recovery policies, returning an APIResponse with status_code, transaction_id, and acknowledged.",
+    "taxonomy_mode": "conceptual_explanation",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_008",
+    "question": "What is the syntax for calling client.send() with a payload?",
+    "expected_behavior": "Provide the call signature: client.send(payload={'event': 'user.signup'}, retry_backoff_ms=1000, max_retries=3). Mention that payload is the required dict argument.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_009",
+    "question": "What is the default value of max_retries?",
+    "expected_behavior": "Answer that the default value of max_retries in Client.send() is 3.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_010",
+    "question": "Which environment variable sets the SDK log level?",
+    "expected_behavior": "Answer that the SDK_V3_LOG_LEVEL environment variable sets the logging verbosity (default INFO; DEBUG, INFO, WARNING, ERROR).",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_011",
+    "question": "How do I verify a webhook signature?",
+    "expected_behavior": "Explain that you pass the raw HTTP body, signature header, and webhook secret to WebhookManager.verify_signature(), e.g. WebhookManager.verify_signature(body=raw_bytes, signature_header=request.headers.get('X-Signature'), secret='whsec_abc123'), which returns a bool.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_012",
+    "question": "What is the maximum allowed batch size for Client.batch_send()?",
+    "expected_behavior": "Answer that the maximum allowed batch size is 50 items per single request call.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_013",
+    "question": "What is the traditional history of sushi?",
+    "expected_behavior": "Refuse with the prescribed fallback: \"I don't have enough information in the provided document to answer that question.\" The recipe corpus explicitly lists this as an out-of-corpus question.",
+    "taxonomy_mode": "unsupported_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_014",
+    "question": "Who invented pizza?",
+    "expected_behavior": "Refuse with the prescribed fallback, as this is an out-of-corpus question not covered by the documents.",
+    "taxonomy_mode": "unsupported_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_015",
+    "question": "What is the best restaurant in Bangalore?",
+    "expected_behavior": "Refuse with the prescribed fallback, as this is an out-of-corpus question not covered by the documents.",
+    "taxonomy_mode": "unsupported_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_016",
+    "question": "What is the shelf life of cooked chicken?",
+    "expected_behavior": "Refuse with the prescribed fallback, as this is an out-of-corpus question not covered by the documents.",
+    "taxonomy_mode": "unsupported_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_017",
+    "question": "what is the famous recipie",
+    "expected_behavior": "Refuse with the prescribed fallback. This is an ambiguous query with no specific recipe target; no single chunk answers it. A good answer does not fabricate a recipe.",
+    "taxonomy_mode": "ambiguous_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_018",
+    "question": "How does the SDK handle retries?",
+    "expected_behavior": "Explain that Client.send() has configurable retry backoff (retry_backoff_ms default 1000, max_retries default 3) and that rate-limit handling pauses execution for retry_after_s before retrying. Ground the answer in the SDK docs.",
+    "taxonomy_mode": "conceptual_explanation",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_019",
+    "question": "Tell me about everything in the SDK",
+    "expected_behavior": "Refuse or ask for a more specific question. A broad, non-specific 'tell me about everything' question has no single answerable intent in the documents and should not be answered with a fabricated overview.",
+    "taxonomy_mode": "ambiguous_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_020",
+    "question": "Can you please give me a recipe that uses coconut?",
+    "expected_behavior": "Provide the Creamy Coconut Chickpea Curry recipe (ingredients use 1 cup coconut milk), grounded in the recipe corpus. This is answerable from in-corpus content.",
+    "taxonomy_mode": "ambiguous_question",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_021",
+    "question": "When I filter results to SDK version v3, what timeout env var applies?",
+    "expected_behavior": "Answer that within the v3 SDK, the SDK_V3_TIMEOUT_S environment variable globally overrides the default API timeout in ClientConfig (default 30.0 seconds). The assistant should honor the version-3 filter.",
+    "taxonomy_mode": "version_specific",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_022",
+    "question": "What does the v3 error handling guide say about rate limits?",
+    "expected_behavior": "Explain that ERR_RATE_LIMIT is raised when request volume exceeds quota, class SDKRateLimitError, with recovery by pausing for retry_after_s before retrying.",
+    "taxonomy_mode": "version_specific",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_023",
+    "question": "Which events does the v3 WebhookManager support?",
+    "expected_behavior": "List the supported events: event.delivered (triggered when a payload is delivered) and event.failed (triggered when max retries are exhausted).",
+    "taxonomy_mode": "version_specific",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_024",
+    "question": "Why would a Client.send() call raise SDKTimeoutError?",
+    "expected_behavior": "Explain that SDKTimeoutError (ERR_TIMEOUT) is raised when a network operation exceeds timeout_s, and the recovery strategy is to retry with linear backoff.",
+    "taxonomy_mode": "conceptual_explanation",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_025",
+    "question": "How do I scale up Client.batch_send() to more items?",
+    "expected_behavior": "Explain that batch_send processes payloads in parallel workers; items can be up to 50 per call and concurrency defaults to 5, so you can pass the items list and optionally increase concurrency.",
+    "taxonomy_mode": "conceptual_explanation",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_026",
+    "question": "Is there a limit on batch size for sending messages?",
+    "expected_behavior": "Answer that the maximum allowed batch size for Client.batch_send() is 50 items per single request call.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": false,
+    "source": "week6_eval"
+  },
+  {
+    "id": "eval_027",
+    "question": "give me a recipie with coconut",
+    "expected_behavior": "Complete the answer by providing the Creamy Coconut Chickpea Curry recipe (ingredients + method). This is an in-corpus question that must be answered, not left empty.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": true,
+    "source": "week5_failure",
+    "trace_id": "7cd6a5e3-1800-44d7-bc81-224815e4f23f",
+    "failure_description": "Generation FAIL. Retrieval succeeded (Coconut Chickpea Curry chunks were retrieved at ranks 1-3) but the LLM provider (Groq llama-3.3-70b-versatile) returned an API error, so no answer was generated. Trace status is 'error', raw_output and answer are absent. Documented in RAG_TRACE_EVALUATION.md as 'Generation result: FAIL - status is error, no answer generated. Provider/API failure.' Root cause is an external provider failure (rate limit, timeout, or model error), not a RAG pipeline issue.",
+    "original_trace": {
+      "question": "give me a recipie with coconut",
+      "status": "error",
+      "provider": "groq",
+      "model": "llama-3.3-70b-versatile",
+      "collection_name": "recipe_rag_test_corpus",
+      "top_k": 5,
+      "retrieved_chunks_ranks": [1, 2, 3, 4, 5],
+      "answer": null,
+      "response_status": null
+    }
+  },
+  {
+    "id": "eval_028",
+    "question": "What are the ingredients in the Creamy Coconut Chickpea Curry?",
+    "expected_behavior": "List all the ingredients for the Creamy Coconut Chickpea Curry (2 cups cooked chickpeas, 1 cup coconut milk, 1 medium onion diced, 2 garlic cloves minced, 1 tsp ginger, 1 tsp cumin, 1 tsp coriander powder, 1/2 tsp turmeric, 1/2 tsp chili powder, 1 cup diced tomatoes, 1 tbsp oil, salt to taste, 1/2 cup water). Cite the ingredients chunk.",
+    "taxonomy_mode": "factual_lookup",
+    "regression": true,
+    "source": "week5_failure",
+    "trace_id": "d1545982-bf74-4dd6-b37b-141d0d2817ba",
+    "failure_description": "Ranking FAIL. The answer-bearing chunk (chunk_8, ingredients, distance 0.2117) was ranked #2, while the recipe header chunk (chunk_7, distance 0.2874) was ranked #1 despite being less similar. This is the clearest rank/distance inversion among in-corpus queries, caused by RRF fusion promoting the header chunk via BM25 title matching. The LLM still produced the correct answer, but precision@1 is degraded (P1 severity). Documented in RAG_TRACE_EVALUATION.md trace 5.",
+    "original_trace": {
+      "question": "What are the ingredients in the Creamy Coconut Chickpea Curry?",
+      "status": "success",
+      "provider": "groq",
+      "model": "openai/gpt-oss-20b",
+      "collection_name": "trace-test",
+      "top_k": 5,
+      "retrieved_chunks": [
+        {"rank": 1, "chunk_id": "recipe_rag_test_corpus.pdf__chunk_7", "distance": 0.2874, "text": "Recipe: 2. Creamy Coconut Chickpea Curry\n\nCuisine: Indian-inspired | Serves: 4 | Prep: 10 minutes | Cook: 25 minutes"},
+        {"rank": 2, "chunk_id": "recipe_rag_test_corpus.pdf__chunk_8", "distance": 0.2117, "text": "Recipe: 2. Creamy Coconut Chickpea Curry\nSection: Ingredients\n\n2 cups cooked chickpeas, 1 cup coconut milk, 1 medium onion diced, 2 garlic cloves minced, 1 teaspoon ginger, 1 teaspoon cumin, 1 teaspoon coriander powder, 1/2 teaspoon turmeric, 1/2 teaspoon chili powder, 1 cup diced tomatoes, 1 tablespoon oil, salt to taste, 1/2 cup water"}
+      ]
+    }
+  }
+]

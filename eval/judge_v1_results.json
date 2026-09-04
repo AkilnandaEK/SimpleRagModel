@@ -1,0 +1,252 @@
+[
+  {
+    "id": "eval_001",
+    "judge_version": "v1",
+    "question": "How do I authenticate with the v3 SDK?",
+    "answer": "**Authentication in the v3 SDK**\n\n* Use the SDK’s built‑in authentication helper or pass credentials directly to `ClientConfig`.  \n* The SDK supports three credential types:\n\n  * **API keys** – static keys from the developer portal  \n  * **OAuth 2.0 Bearer tokens** – short‑lived tokens from a token endpoint  \n  * **Mutual TLS (mTLS)** – certificate‑based identity for enterprise tiers  \n\n* Typical usage with a bearer token:\n\n  ```python\n  from sdk_v3 import Client, BearerTokenAuth\n\n  auth = BearerTokenAuth(token=\"v3_sec_key_994821\")   # (v3_sdk_corpus__chunk_1 | authentication)\n  client = Client(auth=auth)                         # (v3_sdk_corpus__chunk_1 | authentication)\n  ```\n\n* Alternatively, provide an API key directly to `ClientConfig`:\n\n  ```python\n  client = Client(ClientConfig(api_key=\"YOUR_API_KEY\"))  # (v3_sdk_corpus__chunk_1 | authentication)\n  ```\n\nThese snippets illustrate the two supported methods for authenticating with the v3 SDK.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_002",
+    "judge_version": "v1",
+    "question": "Which class do I use for bearer token authentication?",
+    "answer": "- Use the `BearerTokenAuth` class for bearer token authentication.  \n  - Example in the documentation shows initializing it with a token:  \n    ```python\n    from sdk_v3 import Client, BearerTokenAuth\n\n    auth = BearerTokenAuth(token=\"v3_sec_key_994821\")\n    client = Client(auth=auth)\n    ```  \n    (Chunk v3_sdk_corpus__chunk_1)  \n  - The documentation also notes that this class can be used when configuring the client:  \n    “initialize the client using the `BearerTokenAuth` class or pass `api_key` directly to `ClientConfig`.” (Chunk v3_sdk_corpus__chunk_0).",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_003",
+    "judge_version": "v1",
+    "question": "What does ClientConfig manage?",
+    "answer": "- **Global runtime settings**  \n- **Timeout overrides** (e.g., default HTTP request timeout, which can be overridden by `SDK_V3_TIMEOUT_S`)  \n- **Connection pooling parameters** for the v3 SDK  \n  *(Source: configuration.md, Chunk 1)*",
+    "label": 0,
+    "reason": null,
+    "raw": "{\"label\": 0}",
+    "error": null
+  },
+  {
+    "id": "eval_004",
+    "judge_version": "v1",
+    "question": "What base class do all v3 SDK exceptions inherit from?",
+    "answer": "- All v3 SDK exceptions inherit from the base `SDKError` class.  \n  [v3_sdk_corpus__chunk_9 | error_handling | #error_handling]",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_005",
+    "judge_version": "v1",
+    "question": "Which exception is raised when credentials are invalid or expired?",
+    "answer": "- **`SDKAuthError`** is raised when API credentials are invalid or have expired【v3_sdk_corpus__chunk_10 | Page: error_handling | Anchor: #error_handling】",
+    "label": 1,
+    "reason": "The assistant correctly identifies the exception raised for invalid or expired credentials, directly addressing the user's documentation question.",
+    "raw": "{\"label\": 1, \"reason\": \"The assistant correctly identifies the exception raised for invalid or expired credentials, directly addressing the user's documentation question.\"}",
+    "error": null
+  },
+  {
+    "id": "eval_006",
+    "judge_version": "v1",
+    "question": "What is the default number of concurrent worker threads for batch processing?",
+    "answer": "- The default number of concurrent worker threads for batch processing is **5** 【v3_sdk_corpus__chunk_3 | Page: batch_processing | Anchor: #batch_processing】",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_007",
+    "judge_version": "v1",
+    "question": "What does the Client.send() method do?",
+    "answer": "- **Purpose**: The `Client.send()` method transmits an API request payload to downstream integration targets.  \n  * It supports configurable retry logic, including exponential backoff (`retry_backoff_ms`) and a maximum retry limit (`max_retries`).  \n  * It also handles request timeouts (`timeout_s`).  \n\n**Citation**:  \n- Chunk 1 (client_send | #client_send)  \n- Chunk 2 (client_send | #client_send)  \n- Chunk 3 (client_send | #client_send)",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_008",
+    "judge_version": "v1",
+    "question": "What is the syntax for calling client.send() with a payload?",
+    "answer": "- Use the `Client.send()` method and pass the payload as a dictionary.  \n  ```python\n  response = client.send(\n      payload={\"event\": \"user.signup\"},\n      retry_backoff_ms=1000,\n      max_retries=3\n  )\n  ```  \n  *Citation: Chunk 1 (client_send, Anchor #client_send).*",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_009",
+    "judge_version": "v1",
+    "question": "What is the default value of max_retries?",
+    "answer": "- The default value of **`max_retries`** is **3**【Chunk 1 | ID: v3_sdk_corpus__chunk_6 | Page: client_send | Anchor: #client_send】【Chunk 2 | ID: v3_sdk_corpus__chunk_5 | Page: client_send | Anchor: #client_send】",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_010",
+    "judge_version": "v1",
+    "question": "Which environment variable sets the SDK log level?",
+    "answer": "- The environment variable that sets the SDK log level is **`SDK_V3_LOG_LEVEL`**【v3_sdk_corpus__chunk_8 | Page: configuration | Anchor: #configuration】",
+    "label": 1,
+    "reason": "The assistant correctly identifies the environment variable (SDK_V3_LOG_LEVEL) that sets the SDK log level and references the relevant documentation.",
+    "raw": "{\"label\": 1, \"reason\": \"The assistant correctly identifies the environment variable (SDK_V3_LOG_LEVEL) that sets the SDK log level and references the relevant documentation.\"}",
+    "error": null
+  },
+  {
+    "id": "eval_011",
+    "judge_version": "v1",
+    "question": "How do I verify a webhook signature?",
+    "answer": "To verify a webhook signature with the v3 SDK:\n\n1. **Import the WebhookManager**  \n   ```python\n   from sdk_v3 import WebhookManager\n   ```\n\n2. **Call `verify_signature()`**  \n   Pass the raw HTTP body, the value of the `X‑Signature` header, and your webhook secret key.  \n   ```python\n   is_valid = WebhookManager.verify_signature(\n       body=raw_bytes,                       # raw HTTP request body\n       signature_header=request.headers.get(\"X-Signature\"),\n       secret=\"whsec_abc123\"                 # your webhook secret\n   )\n   ```\n\n3. **Interpret the result**  \n   `is_valid` will be `True` if the signature matches, otherwise `False`.  \n\n*Sources:*  \n- `WebhookManager.verify_signature()` usage (Chunk 12, Page webhooks, Anchor #webhooks)  \n- Code example (Chunk 13, Page webhooks, Anchor #webhooks).",
+    "label": 0,
+    "reason": null,
+    "raw": "{\"label\": 0}",
+    "error": null
+  },
+  {
+    "id": "eval_013",
+    "judge_version": "v1",
+    "question": "What is the traditional history of sushi?",
+    "answer": "I don't have enough information in the provided document to answer that question.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_014",
+    "judge_version": "v1",
+    "question": "Who invented pizza?",
+    "answer": "I don't have enough information in the provided document to answer that question.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_015",
+    "judge_version": "v1",
+    "question": "What is the best restaurant in Bangalore?",
+    "answer": "I don't have enough information in the provided document to answer that question.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_016",
+    "judge_version": "v1",
+    "question": "What is the shelf life of cooked chicken?",
+    "answer": "I don't have enough information in the provided document to answer that question.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_017",
+    "judge_version": "v1",
+    "question": "what is the famous recipie",
+    "answer": "**Classic Tomato Basil Pasta**【recipe_rag_test_corpus.pdf__chunk_14】【recipe_rag_test_corpus.pdf__chunk_12】",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_019",
+    "judge_version": "v1",
+    "question": "Tell me about everything in the SDK",
+    "answer": "**Overview of the v3 SDK (based on the provided documentation)**  \n\n- **Webhook Management**  \n  - The `WebhookManager` handles asynchronous event notifications from the v3 SDK platform.  \n  - To verify a webhook’s authenticity, use `WebhookManager.verify_signature(raw_body, signature_header, webhook_secret_key)` to check the signature.  \n  - *Source: Chunk 1 | Page: webhooks | Anchor: #webhooks*  \n\n- **Error Handling & Exceptions**  \n  - All SDK errors inherit from the base `SDKError`.  \n  - **Common error codes**  \n    - `ERR_TIMEOUT` → `SDKTimeoutError`: raised when a network operation exceeds `timeout_s`. Recovery: retry with linear backoff.  \n    - `ERR_RATE_LIMIT` → `SDKRateLimitError`: raised when request volume exceeds quota limits.  \n  - *Source: Chunk 2 | Page: error_handling | Anchor: #error_handling*  \n\n- **Authentication & Credentials**  \n  - The SDK requires explicit authentication before making remote RPC calls.  \n  - **Bearer token authentication**: initialize the client with `BearerTokenAuth` or pass an `api_key` to `ClientConfig`.  \n  - **Supported credential types**:  \n    - Static API keys (from the developer portal).  \n    - OAuth2 Bearer Tokens (short‑lived, obtained via a token endpoint).  \n    - Mutual TLS (mTLS) certificates for enterprise tiers.  \n  - Example usage:  \n    ```python\n    from sdk_v3 import Client, BearerTokenAuth\n    auth = BearerTokenAuth(token=\"v3_sec_key_994821\")\n    client = Client(auth=auth)\n    ```  \n  - *Source: Chunks 3 & 5 | Page: authentication | Anchor: #authentication*  \n\n- **Client Configuration**  \n  - `ClientConfig` manages runtime settings, timeout overrides, and connection pooling.  \n  - The default API timeout can be globally overridden with the environment variable `SDK_V3_TIMEOUT_S`.  \n  - Default value: `30.0` seconds.  \n  - *Source: Chunk 4 | Page: configuration | Anchor: #configuration*  \n\nThese sections cover the main functional areas documented for the v3 SDK.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_020",
+    "judge_version": "v1",
+    "question": "Can you please give me a recipe that uses coconut?",
+    "answer": "**Creamy Coconut Chickpea Curry**  \n*Cuisine:* Indian‑inspired | *Serves:* 4  \n\n- **Ingredients** (Chunk 1)  \n  • 2 cups cooked chickpeas  \n  • 1 cup coconut milk  \n  • 1 medium onion, diced  \n  • 2 garlic cloves, minced  \n  • 1 tsp grated ginger  \n  • 1 tsp cumin  \n  • 1 tsp coriander powder  \n  • ½ tsp turmeric  \n  • ½ tsp chili powder  \n  • 1 cup diced tomatoes  \n  • 1 tbsp oil  \n  • Salt to taste  \n  • ½ cup water  \n\n- **Method** (Chunk 3)  \n  1. Heat oil and cook the onion until translucent.  \n  2. Add garlic, ginger, cumin, coriander powder, turmeric, and chili powder; stir for 1 min.  \n  3. Add diced tomatoes and cook until they become soft.  \n  4. Add chickpeas, coconut milk, water, and salt.  \n  5. Simmer uncovered for 12–15 min, stirring occasionally.  \n  6. Serve warm with rice or flatbread.  \n\n*Sources:* Chunk 1 (Ingredients), Chunk 3 (Method).",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_018",
+    "judge_version": "v1",
+    "question": "How does the SDK handle retries?",
+    "answer": "- The SDK retries failed network calls up to the number set in the `max_retries` configuration (default = 3) before raising an `SDKError`【v3_sdk_corpus__chunk_6 | Page: client_send | Anchor: #client_send】.  \n- For timeout‑related failures (`ERR_TIMEOUT`), it retries with a linear back‑off strategy【v3_sdk_corpus__chunk_9 | Page: error_handling | Anchor: #error_handling】.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_021",
+    "judge_version": "v1",
+    "question": "When I filter results to SDK version v3, what timeout env var applies?",
+    "answer": "The timeout environment variable for SDK version v3 is:\n\n- **`SDK_V3_TIMEOUT_S`** – overrides the default HTTP request timeout (default 30 s).【Chunk 2 | ID: v3_sdk_corpus__chunk_7 | Page: configuration | Anchor: #configuration】",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_022",
+    "judge_version": "v1",
+    "question": "What does the v3 error handling guide say about rate limits?",
+    "answer": "- **Error code:** `ERR_RATE_LIMIT` maps to the `SDKRateLimitError` class.  \n- **Trigger:** Raised when request volume exceeds quota limits.  \n- **Recovery strategy:**  \n  - The SDK automatically pauses execution for the duration specified in the `retry_after_s` attribute or header.  \n  - After waiting, the call is retried.  \n\n*(See error handling guide, chunk 1, page error_handling, anchor #error_handling; and chunk 2, page error_handling, anchor #error_handling.)*",
+    "label": 0,
+    "reason": null,
+    "raw": "{\"label\": 0}",
+    "error": null
+  },
+  {
+    "id": "eval_023",
+    "judge_version": "v1",
+    "question": "Which events does the v3 WebhookManager support?",
+    "answer": "- `event.delivered` – triggered when a payload is successfully delivered.  \n- `event.failed` – triggered when maximum retry attempts are exhausted.  \n\n[Chunk 2: Supported Events]",
+    "label": 0,
+    "reason": null,
+    "raw": "{\"label\": 0}",
+    "error": null
+  },
+  {
+    "id": "eval_024",
+    "judge_version": "v1",
+    "question": "Why would a Client.send() call raise SDKTimeoutError?",
+    "answer": "- A `Client.send()` call will raise an `SDKTimeoutError` when the underlying network operation takes longer than the configured `timeout_s` value.  \n  - This error class (`ERR_TIMEOUT`) is defined in the SDK’s error handling table as “Raised when a network operation exceeds `timeout_s`.”【v3_sdk_corpus__chunk_9 | Page: error_handling | Anchor: #error_handling】",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_025",
+    "judge_version": "v1",
+    "question": "How do I scale up Client.batch_send() to more items?",
+    "answer": "- **Batch size limit** – `Client.batch_send()` can only send **up to 50 items per single request**.  \n  *(Chunk 1 – batch_processing, Anchor: #batch_processing)*  \n\n- **Parallelism** – The call processes items in **parallel worker threads**.  \n  The `concurrency` parameter controls how many worker threads run concurrently (default 5).  \n  You can raise this number to increase throughput, but each worker still sends at most 50 items.  \n  *(Chunk 2 – batch_processing, Anchor: #batch_processing)*  \n\n- **Practical scaling** – To send more than 50 items:\n  1. Split your payload list into groups of ≤ 50 items.\n  2. Call `Client.batch_send()` for each group (or let the SDK handle the splitting if supported).\n  3. Adjust `concurrency` to a higher value to run multiple batches in parallel.  \n\nThus, scaling is achieved by batching into groups of 50 and increasing the `concurrency` setting.",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  },
+  {
+    "id": "eval_028",
+    "judge_version": "v1",
+    "question": "What are the ingredients in the Creamy Coconut Chickpea Curry?",
+    "answer": "**Ingredients for Creamy Coconut Chickpea Curry**\n\n- 2 cups cooked chickpeas  \n- 1 cup coconut milk  \n- 1 medium onion, diced  \n- 2 garlic cloves, minced  \n- 1 teaspoon grated ginger  \n- 1 teaspoon cumin  \n- 1 teaspoon coriander powder  \n- ½ teaspoon turmeric  \n- ½ teaspoon chili powder  \n- 1 cup diced tomatoes  \n- 1 tablespoon oil  \n- Salt to taste  \n- ½ cup water  \n\n*Source: recipe_rag_test_corpus.pdf__chunk_7, Page 2, Anchor: #section*",
+    "label": 1,
+    "reason": null,
+    "raw": "{\"label\": 1}",
+    "error": null
+  }
+]

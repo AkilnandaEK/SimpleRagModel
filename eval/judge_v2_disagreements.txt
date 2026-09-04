@@ -1,0 +1,8 @@
+Judge V2 disagreements (human vs judge)
+============================================================
+eval_017
+  taxonomy_mode: ambiguous_question
+  question:      what is the famous recipie
+  human_label:   0
+  judge_label:   1
+
