@@ -16,6 +16,9 @@ __pycache__/
 # ── Vector store data (local index) ──────────────────────────────
 chroma_db/
 
+# ── Trace logs (per-request RAG traces) ───────────────────────────
+traces/
+
 # ── Build artifacts ──────────────────────────────────────────────
 build/
 dist/

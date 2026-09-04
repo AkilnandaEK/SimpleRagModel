@@ -1,7 +1,7 @@
 """
 app/routes/query.py
 -------------------
-POST /query                  — Answer a question using RAG + Gemini with citations, debug/eval metadata.
+POST /query                  — Answer a question using RAG + LLM with citations, debug/eval metadata.
 GET  /collections             — List all indexed collections.
 DELETE /collections/{n}       — Remove a collection.
 """
@@ -12,14 +12,12 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-import google.generativeai as genai
-
 from app.core.config import settings
 from app.services.embedder import embed_query
 from app.services.hybrid_retrieval import hybrid_query_chunks
+from app.services.llm_provider import generate_answer
+from app.services.tracing import PROMPT_VERSION, new_trace_id, save_trace, utc_timestamp
 from app.services.vector_store import delete_collection, list_collections
-
-genai.configure(api_key=settings.gemini_api_key)
 
 router = APIRouter(tags=["Query & Collections"])
 
@@ -96,6 +94,7 @@ class QueryResponse(BaseModel):
     question: str
     sources: list[SourceChunk]
     chunks_used: int
+    trace_id: str | None = None
     evaluation: EvaluationDetails | None = None
 
 
@@ -153,6 +152,46 @@ def _build_prompt(question: str, context_chunks: list[dict]) -> tuple[str, str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Trace helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _save_error_trace(
+    trace_id: str,
+    question: str,
+    collection_name: str,
+    top_k: int,
+    error: Exception,
+    status_code: int,
+    retrieved_chunks_info: list[dict] | None = None,
+    prompt: str | None = None,
+) -> None:
+    """Persist a partial trace when the request fails before completion."""
+    trace = {
+        "trace_id": trace_id,
+        "timestamp": utc_timestamp(),
+        "question": question,
+        "prompt_version": PROMPT_VERSION,
+        "provider": settings.llm_provider,
+        "model": settings.active_model,
+        "model_parameters": {},
+        "collection_name": collection_name,
+        "top_k": top_k,
+        "retrieved_chunks": retrieved_chunks_info or [],
+        "prompt": prompt,
+        "raw_output": None,
+        "answer": None,
+        "response_status": None,
+        "status": "error",
+        "error": {
+            "type": error.__class__.__name__,
+            "status_code": status_code,
+            "detail": str(error),
+        },
+    }
+    save_trace(trace)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Endpoints
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -161,11 +200,18 @@ async def query_document(body: QueryRequest) -> QueryResponse:
     """
     RAG query pipeline with optional debug/evaluation details and metadata filtering.
     """
+    trace_id = new_trace_id()
     effective_top_k = body.top_k if body.top_k > 0 else settings.top_k
+
+    # Accumulators for trace data — updated as the pipeline progresses so that
+    # a failure can still persist a useful partial trace.
+    retrieved_chunks_info: list[dict] = []
+    prompt_sent: str | None = None
 
     try:
         q_embedding = embed_query(body.question)
     except Exception as exc:
+        _save_error_trace(trace_id, body.question, body.collection_name, effective_top_k, exc, 500)
         raise HTTPException(status_code=500, detail=f"Embedding failed: {exc}") from exc
 
     where_filter = None
@@ -181,24 +227,47 @@ async def query_document(body: QueryRequest) -> QueryResponse:
             where=where_filter,
         )
     except ValueError as exc:
+        _save_error_trace(trace_id, body.question, body.collection_name, effective_top_k, exc, 404)
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except Exception as exc:
+        _save_error_trace(trace_id, body.question, body.collection_name, effective_top_k, exc, 500)
         raise HTTPException(status_code=500, detail=f"Retrieval failed: {exc}") from exc
 
     if not retrieved:
+        exc = ValueError(
+            f"No chunks found in collection '{body.collection_name}'. Is the document uploaded?"
+        )
+        _save_error_trace(trace_id, body.question, body.collection_name, effective_top_k, exc, 404)
         raise HTTPException(
             status_code=404,
             detail=f"No chunks found in collection '{body.collection_name}'. Is the document uploaded?",
         )
 
-    prompt, context_block = _build_prompt(body.question, retrieved)
+    for rank, chunk in enumerate(retrieved, start=1):
+        retrieved_chunks_info.append(
+            {
+                "chunk_id": chunk["chunk_id"],
+                "rank": rank,
+                "text": chunk.get("text"),
+                "distance": chunk.get("distance"),
+                "source_file": chunk.get("metadata", {}).get("source_file"),
+            }
+        )
+
+    prompt_sent, context_block = _build_prompt(body.question, retrieved)
 
     try:
-        model = genai.GenerativeModel(settings.gemini_model)
-        response = model.generate_content(prompt)
-        answer = response.text.strip()
+        llm_result = generate_answer(prompt_sent)
+        raw_output = llm_result.raw_text
+        answer = raw_output.strip()
     except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"Gemini API error: {exc}") from exc
+        _save_error_trace(
+            trace_id, body.question, body.collection_name, effective_top_k,
+            exc, 502, retrieved_chunks_info, prompt_sent,
+        )
+        raise HTTPException(status_code=502, detail=f"LLM API error: {exc}") from exc
+
+    model_parameters = llm_result.model_parameters
 
     # Determine refusal status
     refusal_trigger = "I don't have enough information in the provided document"
@@ -273,12 +342,32 @@ async def query_document(body: QueryRequest) -> QueryResponse:
             metadata_filter=where_filter,
             retrieved_chunks=eval_chunks,
             context=context_block,
-            llm_prompt=prompt,
+            llm_prompt=prompt_sent,
             llm_response=answer,
             answer=answer,
             response_status=response_status,
             citations=citations,
         )
+
+    # ── Persist trace ──────────────────────────────────────────────────────────
+    trace = {
+        "trace_id": trace_id,
+        "timestamp": utc_timestamp(),
+        "question": body.question,
+        "prompt_version": PROMPT_VERSION,
+        "provider": llm_result.provider,
+        "model": llm_result.model,
+        "model_parameters": model_parameters,
+        "collection_name": body.collection_name,
+        "top_k": effective_top_k,
+        "retrieved_chunks": retrieved_chunks_info,
+        "prompt": prompt_sent,
+        "raw_output": raw_output,
+        "answer": answer,
+        "response_status": response_status,
+        "status": "success",
+    }
+    save_trace(trace)
 
     return QueryResponse(
         answer=answer,
@@ -286,6 +375,7 @@ async def query_document(body: QueryRequest) -> QueryResponse:
         question=body.question,
         sources=sources,
         chunks_used=len(sources),
+        trace_id=trace_id,
         evaluation=eval_details,
     )
 
