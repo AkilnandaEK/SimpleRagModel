@@ -1,0 +1,1 @@
+"""safety package — hard safety boundaries for agent and workflow architectures."""
