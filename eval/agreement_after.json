@@ -1,0 +1,10 @@
+{
+  "judge_version": "v2",
+  "cases_compared": 25,
+  "valid_judge_labels": 25,
+  "matches": 24,
+  "disagreements": 1,
+  "agreement_percent": 96.0,
+  "agreement_before_percent": 76.0,
+  "agreement_delta_percent": 20.0
+}

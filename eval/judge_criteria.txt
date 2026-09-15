@@ -1,0 +1,155 @@
+Week 6 · Module 3 · Evals & Error Analysis — Judge Criteria Specification
+=========================================================================
+
+This file defines the boundary between deterministic assertions (Work Item 3)
+and the LLM judge (future work items). It is the single source of truth for
+which criteria each layer evaluates.
+
+Work Item 4 —
+
+
+1. CRITERIA COUNT SUMMARY
+==========================
+
+Deterministic assertion criteria:  4
+LLM-judged criteria:              1
+-----------------------------------
+Total evaluation criteria:         5
+
+
+2. DETERMINISTIC ASSERTION CRITERIA — DO NOT JUDGE WITH LLM
+=============================================================
+
+These four criteria are evaluated exclusively by the deterministic assertion
+layer in eval/assertions.py. They are provable by program logic, require no
+semantic interpretation, and must NEVER be included in the LLM judge prompt.
+
+  1. code_sample_parses
+     Every fenced code block in the answer parses without syntax errors
+     (AST parse for Python, json.loads for JSON). Verified programmatically.
+
+  2. endpoint_exists
+     Every API endpoint path referenced in the answer exists in the real
+     OpenAPI spec (app.openapi()). No hallucinated routes.
+
+  3. api_version_stated
+     When the eval case is version_specific, the answer must explicitly state
+     the required API version (v3). A bare /v3/ inside a URL path does not
+     count as "stating the version."
+
+  4. deprecated_symbol_migration
+     When deprecated symbols are referenced in the answer, each must carry a
+     migration or deprecation note ("deprecated", "use X instead", etc.).
+
+These criteria are machine-checkable, deterministic, and side-effect-free.
+They have already been scored by Work Item 3 and are reported in results.json
+under the "assertions" key per case.
+
+
+3. EXCLUSION RULE — MANDATORY FOR THE LLM JUDGE
+=================================================
+
+When the LLM judge is implemented, the judge prompt MUST contain the
+following explicit exclusion. This is not optional.
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │  The judge MUST NOT evaluate:                                   │
+  │                                                                 │
+  │  - whether code samples parse successfully                      │
+  │  - whether endpoint paths exist in the OpenAPI spec             │
+  │  - whether an API version is explicitly stated                  │
+  │  - whether deprecated symbols include migration notes           │
+  │                                                                 │
+  │  Those four criteria are evaluated exclusively by deterministic  │
+  │  assertions (eval/assertions.py). They are already scored and   │
+  │  recorded in the results. Do not re-judge them.                 │
+  └─────────────────────────────────────────────────────────────────┘
+
+
+4. LLM-JUDGED CRITERION — SINGLE BINARY CRITERION
+===================================================
+
+The LLM judge evaluates exactly ONE criterion. It is binary (1 or 0).
+There are no 1-10 scales, no partial credit, no multi-dimensional scoring.
+
+  Criterion:   helpful
+
+  Definition:  Does the answer adequately address the user's documentation
+               question using the available documentation?
+
+  Scoring:
+
+    1 = The answer adequately addresses the user's question. For answerable
+        questions, this means the response provides a substantively correct
+        answer grounded in the retrieved documentation. For questions that
+        should be refused (unsupported, ambiguous, out-of-scope), this means
+        the assistant appropriately declines to answer rather than fabricating
+        or guessing.
+
+    0 = The answer does not adequately address the user's question. Examples:
+        - The assistant fabricates information not found in the documentation.
+        - The assistant provides a partially or wholly incorrect answer.
+        - The assistant answers when it should have refused (e.g., unsupported
+          or ambiguous questions).
+        - The assistant refuses when the question is answerable from the
+          documentation.
+        - The answer is vague, off-topic, or fails to address the question
+          that was asked.
+
+  Applicability: This criterion applies to ALL 28 eval cases. Every case
+                 receives exactly one binary label from the judge.
+
+  Human labeling: A blind human labeler should be able to independently
+                  assign 1 or 0 using only the question, the answer, and
+                  access to the source documentation (for grounding checks).
+                  The expected_behavior field in eval_cases.json provides
+                  additional context for borderline cases but is not required
+                  for the label itself.
+
+
+5. WHY THIS CRITERION AND NOT OTHERS
+======================================
+
+  - "correct": Too close to the deterministic assertions (code parsing,
+    endpoint existence, version stating). Would create overlap.
+
+  - "grounded": Partially overlapping with deterministic checks. Grounding
+    is subsumed by "helpful" — an unhelpful hallucinated answer is also
+    ungrounded. Keeping one criterion avoids double-counting.
+
+  - "comprehensive": Not meaningful for this eval set. Many correct answers
+    are brief (e.g., "SDKError" for eval_004). Comprehensiveness is not a
+    quality this assistant optimizes for.
+
+  - "helpful": Captures the core question the rubric cares about: did the
+    assistant actually help the user? This encompasses factual correctness,
+    appropriate refusals, and relevance — all in a single binary decision.
+
+
+6. SEPARATION OF CONCERNS
+===========================
+
+  Layer                    │ Criteria count │ What it checks
+  ─────────────────────────┼────────────────┼──────────────────────────────
+  Deterministic assertions │       4        │ Structural / mechanical
+  LLM judge                │       1        │ Semantic quality
+  ─────────────────────────┼────────────────┼──────────────────────────────
+  Total                    │       5        │
+
+  The deterministic layer answers: "Is the answer structurally valid?"
+  The LLM judge answers:           "Is the answer actually helpful?"
+
+  These two questions are orthogonal. A structurally valid answer can be
+  unhelpful (e.g., correct code sample but wrong content). A helpful answer
+  might not contain code at all (and thus code_sample_parses is N/A).
+
+
+7. NO JUDGE EXECUTION
+=======================
+
+  - The LLM judge has NOT been run.
+  - No human labels (labels_25.json) have been created.
+  - No agreement scores have been calculated.
+  - No judge prompt has been sent to any model.
+  - This file is a specification only — it defines the boundary for future
+    work items, not an executed evaluation.

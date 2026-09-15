@@ -1,0 +1,19 @@
+Week 6 blind human labeling evidence
+=====================================
+
+labels_file: eval/labels_25.json
+label_count: 25
+
+label_commit: 87f9e3e57b263badf641e8abb21c8b8fd2424529
+label_commit_timestamp: 2026-09-04T01:26:06+05:30
+
+judge_status: NOT EXECUTED
+agreement_status: NOT CALCULATED
+
+Notes
+-----
+* The 25 human labels were committed via git BEFORE any LLM judge ran.
+* Only the human-label artifacts (eval/labels_25.json and
+  eval/human_labeling_instructions.txt) were included in the commit.
+* No judge output, agreement scores, or judge-generated labels were
+  created or included.

@@ -1,0 +1,38 @@
+Judge V1 disagreements (human vs judge)
+============================================================
+eval_003
+  taxonomy_mode: conceptual_explanation
+  question:      What does ClientConfig manage?
+  human_label:   1
+  judge_label:   0
+
+eval_011
+  taxonomy_mode: factual_lookup
+  question:      How do I verify a webhook signature?
+  human_label:   1
+  judge_label:   0
+
+eval_017
+  taxonomy_mode: ambiguous_question
+  question:      what is the famous recipie
+  human_label:   0
+  judge_label:   1
+
+eval_019
+  taxonomy_mode: ambiguous_question
+  question:      Tell me about everything in the SDK
+  human_label:   0
+  judge_label:   1
+
+eval_022
+  taxonomy_mode: version_specific
+  question:      What does the v3 error handling guide say about rate limits?
+  human_label:   1
+  judge_label:   0
+
+eval_023
+  taxonomy_mode: version_specific
+  question:      Which events does the v3 WebhookManager support?
+  human_label:   1
+  judge_label:   0
+
