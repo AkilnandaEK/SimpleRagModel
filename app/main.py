@@ -21,8 +21,10 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.core.config import settings
+from app.routes import benchmark as benchmark_router
 from app.routes import evaluation as evaluation_router
 from app.routes import query as query_router
+from app.routes import trajectory as trajectory_router
 from app.routes import upload as upload_router
 
 
@@ -86,6 +88,8 @@ app.add_middleware(
 app.include_router(upload_router.router)
 app.include_router(query_router.router)
 app.include_router(evaluation_router.router)
+app.include_router(benchmark_router.router)
+app.include_router(trajectory_router.router)
 
 # ── Mount Flutter Web UI static files ─────────────────────────────────────────
 frontend_build_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "build", "web")

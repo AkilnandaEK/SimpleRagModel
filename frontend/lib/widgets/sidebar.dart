@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../main.dart' show WorkspaceTab;
 import '../models/rag_models.dart';
 import '../services/api_service.dart';
 import 'upload_dialog.dart';
@@ -10,6 +11,9 @@ class Sidebar extends StatelessWidget {
   final ValueChanged<String> onSelectCollection;
   final VoidCallback onRefresh;
   final bool isBackendConnected;
+  final VoidCallback onOpenBenchmark;
+  final WorkspaceTab activeTab;
+  final ValueChanged<WorkspaceTab> onSelectTab;
 
   const Sidebar({
     super.key,
@@ -18,7 +22,59 @@ class Sidebar extends StatelessWidget {
     required this.onSelectCollection,
     required this.onRefresh,
     required this.isBackendConnected,
+    required this.onOpenBenchmark,
+    required this.activeTab,
+    required this.onSelectTab,
   });
+
+  Widget _tabButton({
+    required WorkspaceTab tab,
+    required IconData icon,
+    required String label,
+  }) {
+    final active = activeTab == tab;
+    return Expanded(
+      child: InkWell(
+        onTap: () => onSelectTab(tab),
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: active
+                ? const Color(0xFF6366F1).withValues(alpha: 0.18)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: active
+                  ? const Color(0xFF6366F1).withValues(alpha: 0.6)
+                  : const Color(0xFF1E293B),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 17,
+                color: active
+                    ? const Color(0xFF818CF8)
+                    : const Color(0xFF64748B),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: GoogleFonts.inter(
+                  color: active ? Colors.white : const Color(0xFF64748B),
+                  fontSize: 11.5,
+                  fontWeight: active ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   void _showUploadDialog(BuildContext context) {
     showDialog(
@@ -185,6 +241,29 @@ class Sidebar extends StatelessWidget {
 
           const Divider(height: 1, color: Color(0xFF1E293B)),
 
+          // Workspace tabs
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
+            child: Row(
+              children: [
+                _tabButton(
+                  tab: WorkspaceTab.chat,
+                  icon: Icons.forum_outlined,
+                  label: 'Chat',
+                ),
+                const SizedBox(width: 8),
+                _tabButton(
+                  tab: WorkspaceTab.evals,
+                  icon: Icons.route_outlined,
+                  label: 'Evals',
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 6),
+          const Divider(height: 1, color: Color(0xFF1E293B)),
+
           // Section Title
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
@@ -318,6 +397,55 @@ class Sidebar extends StatelessWidget {
                       );
                     },
                   ),
+          ),
+
+          // Evaluation footer
+          const Divider(height: 1, color: Color(0xFF1E293B)),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'EVALUATION LAB',
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF64748B),
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: onOpenBenchmark,
+                    icon: const Icon(
+                      Icons.bar_chart_rounded,
+                      size: 16,
+                      color: Color(0xFF818CF8),
+                    ),
+                    label: Text(
+                      'Agent vs Workflow Benchmark',
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFFCBD5E1),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFFCBD5E1),
+                      side: const BorderSide(color: Color(0xFF334155)),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

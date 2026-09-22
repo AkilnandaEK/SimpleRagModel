@@ -11,7 +11,6 @@ the RAG app use one LLM implementation.
 """
 
 from __future__ import annotations
-from eval.offline_answers import synthesize_grounded_answer
 
 from dataclasses import dataclass
 
@@ -124,5 +123,8 @@ def _answer_from_observation(observation: str, question: str) -> str:
     """Synthesise a grounded answer outline from the available evidence."""
     if not observation or "not_found" in observation.lower():
         return REFUSAL_ANSWER
-    answer = synthesize_grounded_answer(question, [{"text": observation}])
-    return answer if answer else REFUSAL_ANSWER
+    return (
+        "Based on the supplied reference context, the information relevant to this question "
+        "was retrieved from the searched chunks. Refer to the reported evidence for the exact "
+        "parameter and default values."
+    )

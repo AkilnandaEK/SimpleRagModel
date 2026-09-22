@@ -41,6 +41,12 @@ class ExecutionTelemetry:
     workflow_steps: int = 0
     answer: str = ""
     is_negative_case: bool = False
+    # ── Week 8 ──
+    #: Name of the active mitigation, or None when the agent runs unguarded.
+    mitigation: str | None = None
+    #: How many times that mitigation intervened during this run. This is the
+    #: numerator behind the "price paid" measurement.
+    mitigation_interventions: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -68,6 +74,8 @@ class ExecutionTelemetry:
             "workflow_steps": self.workflow_steps,
             "answer": self.answer,
             "is_negative_case": self.is_negative_case,
+            "mitigation": self.mitigation,
+            "mitigation_interventions": self.mitigation_interventions,
         }
 
 
