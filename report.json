@@ -1,0 +1,106 @@
+{
+  "scenario_ids": [
+    "easy:01",
+    "easy:04",
+    "easy:13",
+    "medium:02",
+    "medium:05",
+    "medium:14",
+    "hard:01",
+    "hard:04",
+    "hard:09",
+    "hard:13"
+  ],
+  "agent": {
+    "architecture": "agent",
+    "success_rate": 40.0,
+    "successful_count": 4,
+    "total_count": 10,
+    "p50_latency_ms": 17.02,
+    "p99_latency_ms": 32.67,
+    "avg_input_tokens": 121.6,
+    "avg_output_tokens": 121.6,
+    "avg_total_tokens": 243.2,
+    "total_tokens": 2432,
+    "total_cost_usd": 0.000657,
+    "avg_cost_per_run": 6.6e-05,
+    "cost_per_success": 0.000164
+  },
+  "workflow": {
+    "architecture": "workflow",
+    "success_rate": 50.0,
+    "successful_count": 5,
+    "total_count": 10,
+    "p50_latency_ms": 25.26,
+    "p99_latency_ms": 39.93,
+    "avg_input_tokens": 218.1,
+    "avg_output_tokens": 1008.6,
+    "avg_total_tokens": 1226.7,
+    "total_tokens": 12267,
+    "total_cost_usd": 0.003312,
+    "avg_cost_per_run": 0.000331,
+    "cost_per_success": 0.000662
+  },
+  "scenario_results": [
+    {
+      "id": "01",
+      "level": "Easy",
+      "agent_correct": false,
+      "workflow_correct": false
+    },
+    {
+      "id": "01",
+      "level": "Hard",
+      "agent_correct": true,
+      "workflow_correct": true
+    },
+    {
+      "id": "02",
+      "level": "Medium",
+      "agent_correct": false,
+      "workflow_correct": false
+    },
+    {
+      "id": "04",
+      "level": "Easy",
+      "agent_correct": false,
+      "workflow_correct": false
+    },
+    {
+      "id": "04",
+      "level": "Hard",
+      "agent_correct": false,
+      "workflow_correct": false
+    },
+    {
+      "id": "05",
+      "level": "Medium",
+      "agent_correct": true,
+      "workflow_correct": true
+    },
+    {
+      "id": "09",
+      "level": "Hard",
+      "agent_correct": false,
+      "workflow_correct": false
+    },
+    {
+      "id": "13",
+      "level": "Easy",
+      "agent_correct": true,
+      "workflow_correct": true
+    },
+    {
+      "id": "13",
+      "level": "Hard",
+      "agent_correct": true,
+      "workflow_correct": true
+    },
+    {
+      "id": "14",
+      "level": "Medium",
+      "agent_correct": false,
+      "workflow_correct": true
+    }
+  ]
+}

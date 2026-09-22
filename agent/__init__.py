@@ -1,0 +1,1 @@
+"""agent package — manual ReAct agent loop with visible execution trace."""

@@ -1,0 +1,1 @@
+"""workflow package — deterministic Search → Retrieve → Analyze → Answer pipeline."""

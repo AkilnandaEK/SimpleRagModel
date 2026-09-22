@@ -1,0 +1,1 @@
+"""eval package — benchmark evaluation: golden sets, scoring, runner, verdict."""

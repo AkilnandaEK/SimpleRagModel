@@ -1,0 +1,226 @@
+[
+  {
+    "id": "01",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 5,
+      "api_version": "2025-06-01",
+      "tool_context": "GitHub REST API",
+      "endpoint": "POST /repos/{owner}/{repo}/issues"
+    },
+    "question": "In GitHub API version 2025-06-01, what parameter replaces the deprecated single assignee field when creating an issue?",
+    "answer": "The single 'assignee' field is deprecated in favor of the 'assignees' field, which takes an array of strings (logins).",
+    "expected_chunk_id": "github_combined_p5#create_issue_v2025",
+    "contains_exact_token": true
+  },
+  {
+    "id": "02",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "swagger_v3_reference.pdf",
+      "page_number": 1,
+      "tool_version": "3.x",
+      "tool_context": "Swagger Codegen CLI",
+      "feature": "Markdown Documentation Flag"
+    },
+    "question": "Which CLI flag in Swagger Codegen v3 generates a standalone markdown API doc alongside client code?",
+    "answer": "The CLI flag is '--generate-markdown'.",
+    "expected_chunk_id": "swagger_v3_p1#flag_reference",
+    "contains_exact_token": true
+  },
+  {
+    "id": "03",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "swagger_v2_reference.pdf",
+      "page_number": 4,
+      "tool_version": "2.x",
+      "tool_context": "Ignore File Rules",
+      "file_type": ".swagger-codegen-ignore"
+    },
+    "question": "How does the .swagger-codegen-ignore file handle wildcard patterns in Swagger Codegen 2.x?",
+    "answer": "It matches .gitignore syntax exactly using standard glob-style exclude patterns (e.g., *.foo, build/**/*). It reads rules once at the start of generation and offers no override or re-inclusion mechanism once a file is matched.", "expected_chunk_id": "swagger_v2_p4#ignore_file",
+    "contains_exact_token": true
+  },
+  {
+    "id": "04",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 9,
+      "api_version": "2025-06-01",
+      "tool_context": "GitHub REST API",
+      "endpoint": "POST /user/repos"
+    },
+    "question": "What is the default behavior of has_issues when creating a private repository in GitHub API version 2025-06-01 vs 2022-11-28?",
+    "answer": "In version 2025-06-01, has_issues defaults to false for private repositories (and true for public ones). In version 2022-11-28, has_issues defaulted to true unconditionally regardless of repository visibility.",
+    "expected_chunk_id": "github_combined_p9#create_repo_v2025",
+    "contains_exact_token": true
+  },
+  {
+    "id": "05",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "swagger_v3_reference.pdf",
+      "page_number": 4,
+      "tool_version": "3.x",
+      "tool_context": "Swagger Codegen Generator",
+      "language": "Python"
+    },
+    "question": "What new library option was added to the Python generator in Swagger Codegen v3 that produces async/await client methods?",
+    "answer": "The 'asyncio' library option was added alongside the default 'urllib3'.",
+    "expected_chunk_id": "swagger_v3_p4#python_config",
+    "contains_exact_token": true
+  },
+  {
+    "id": "06",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "swagger_v2_reference.pdf",
+      "page_number": 5,
+      "tool_version": "2.x",
+      "tool_context": "CLI Configuration",
+      "file_type": "JSON Config"
+    },
+    "question": "In Swagger Codegen 2.x, can you pass a YAML file directly to the -c configuration flag?",
+    "answer": "No. Swagger Codegen 2.x only accepts JSON configuration files for the -c flag; passing a YAML file causes a parse error.",
+    "expected_chunk_id": "swagger_v2_p5#json_config",
+    "contains_exact_token": false
+  },
+  {
+    "id": "07",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 9,
+      "api_version": "2025-06-01",
+      "tool_context": "GitHub REST API",
+      "endpoint": "POST /user/repos"
+    },
+    "question": "What new visibility enum values are supported when creating a repository in GitHub API version 2025-06-01?",
+    "answer": "The 'visibility' enum accepts one of: 'public', 'private', or 'internal'.",
+    "expected_chunk_id": "github_combined_p9#create_repo_v2025",
+    "contains_exact_token": true
+  },
+  {
+    "id": "08",
+    "level": "Medium",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [1, 1],
+      "tool_version": ["2.x", "3.x"],
+      "tool_context": "Swagger Codegen CLI",
+      "cli_flag": "-DhideGenerationTimestamp=true"
+    },
+    "question": "Which CLI option flag suppresses generation timestamp comments in output files across both Swagger Codegen v2 and v3?",
+    "answer": "The flag is '-DhideGenerationTimestamp=true'.",
+    "expected_chunk_id": "swagger_v3_p1#flag_reference; swagger_v2_p1#flag_reference",
+    "contains_exact_token": true
+  },
+  {
+    "id": "09",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 12,
+      "api_version": "2025-06-01",
+      "tool_context": "GitHub REST API",
+      "endpoint": "POST /repos/{owner}/{repo}/releases"
+    },
+    "question": "What parameter can be provided when creating a release in GitHub API version 2025-06-01 to automatically trigger a linked discussion?",
+    "answer": "The parameter is 'discussion_category_name' (string).",
+    "expected_chunk_id": "github_combined_p12#create_release_v2025",
+    "contains_exact_token": true
+  },
+  {
+    "id": "10",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "swagger_v3_reference.pdf",
+      "page_number": 2,
+      "tool_version": "3.x",
+      "tool_context": "Swagger Codegen Spec Parsing",
+      "spec_version": "OpenAPI 2.0"
+    },
+    "question": "How does Swagger Codegen 3.x handle OpenAPI 2.0 (Swagger) specification files by default?",
+    "answer": "Swagger Codegen v3 rejects OpenAPI 2.0 specs by default; users must pass the '--verbose' flag for spec-conversion diagnostics if generation fails.",
+    "expected_chunk_id": "swagger_v3_p2#note",
+    "contains_exact_token": true
+  },
+  {
+    "id": "11",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "swagger_v3_reference.pdf",
+      "page_number": 3,
+      "tool_version": "3.x",
+      "tool_context": "Swagger Codegen Generator",
+      "language": "Java"
+    },
+    "question": "What option was added in Swagger Codegen v3 Java generator to support OpenAPI oneOf schemas?",
+    "answer": "The 'useOneOfInterfaces' boolean flag was added (default: false), which generates a Java interface for each OpenAPI oneOf schema.",
+    "expected_chunk_id": "swagger_v3_p3#java_config",
+    "contains_exact_token": true
+  },
+  {
+    "id": "12",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 10,
+      "api_version": "2022-11-28",
+      "tool_context": "GitHub REST API",
+      "endpoint": "POST /repos/{owner}/{repo}/releases"
+    },
+    "question": "What is the target_commitish default value when creating a release in the GitHub REST API?",
+    "answer": "The default value is the repository's default branch.",
+    "expected_chunk_id": "github_combined_p10#create_release_body",
+    "contains_exact_token": true
+  },
+  {
+    "id": "13",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "none",
+      "is_negative_case": true,
+      "difficulty_style": "Moderately Confusory",
+      "expected_behavior": "refusal_or_fallback",
+      "tool_context": "Fabricated CLI Flag"
+    },
+    "question": "Which CLI flag in Swagger Codegen 3.x allows auto-formatting the generated Python code using the Black formatter?",
+    "answer": "Information not provided in context. While Swagger Codegen 3.x supports Python generation, the context does not mention any CLI flag or option for running Black auto-formatting.",
+    "expected_chunk_id": null
+  },
+  {
+    "id": "14",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "none",
+      "is_negative_case": true,
+      "difficulty_style": "Moderately Confusory",
+      "expected_behavior": "refusal_or_fallback",
+      "tool_context": "Fabricated API Endpoint"
+    },
+    "question": "What parameter is used to specify the auto-delete policy when archiving a repository using POST /repos/{owner}/{repo}/archive in GitHub API version 2025-06-01?",
+    "answer": "Information not provided in context. The reference documents do not contain an endpoint for archiving repositories or an auto-delete parameter.",
+    "expected_chunk_id": null
+  },
+  {
+    "id": "15",
+    "level": "Medium",
+    "metadata": {
+      "target_file": "none",
+      "is_negative_case": true,
+      "difficulty_style": "Moderately Confusory",
+      "expected_behavior": "refusal_or_fallback",
+      "tool_context": "Fabricated Config Option"
+    },
+    "question": "What is the default value of the enableGrpcClient option in the Swagger Codegen 3.x Java generator?",
+    "answer": "Information not provided in context. The Java client generator documentation in Swagger Codegen 3.x lists options like useOneOfInterfaces and library, but does not contain an enableGrpcClient configuration option.",
+    "expected_chunk_id": null
+  }
+]

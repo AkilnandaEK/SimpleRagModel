@@ -1,0 +1,241 @@
+[
+  {
+    "id": "01",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 3,
+      "api_versions": ["2022-11-28", "2025-06-01"],
+      "tool_context": "GitHub REST API Migration",
+      "endpoint": "POST /markdown"
+    },
+    "question": "Compare how the context parameter format changed between GitHub API version 2022-11-28 and 2025-06-01 for rendering Markdown.",
+    "answer": "In version 2022-11-28, context was accepted as a plain string (e.g., 'octocat/Hello-World'). In version 2025-06-01, context accepts an owner/repo pair as a structured object (e.g., { 'owner': '...', 'repo': '...' }).",
+    "expected_chunk_id": "github_combined_p3#markdown_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "02",
+    "level": "Hard",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [5, 4],
+      "tool_versions": ["2.x", "3.x"],
+      "tool_context": "Ignore File Migration",
+      "file_type": ".swagger-codegen-ignore"
+    },
+    "question": "What negation syntax does the .swagger-codegen-ignore file support in Swagger Codegen v3 that is missing in v2?",
+    "answer": "Swagger Codegen v3 supports a negation pattern (!pattern) to re-include a file or directory excluded by a broader glob above it (e.g., !docs/keep-this.md). In v2, no negation syntax existed.",
+    "expected_chunk_id": "swagger_v3_p5#ignore_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "03",
+    "level": "Hard",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [6, 5],
+      "tool_versions": ["2.x", "3.x"],
+      "tool_context": "Config File Migration",
+      "feature": "additionalProperties Nesting"
+    },
+    "question": "What top-level configuration key was introduced in Swagger Codegen v3 config files to nest generator-specific options that did not exist in v2?",
+    "answer": "Swagger Codegen v3 introduced the 'additionalProperties' object key to nest generator-specific options. When present, flat top-level keys of the same name are ignored in favor of nested values. v2 required all keys to be listed flat.",
+    "expected_chunk_id": "swagger_v3_p6#config_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "04",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 7,
+      "api_versions": ["2022-11-28", "2025-06-01"],
+      "tool_context": "GitHub REST API Migration",
+      "endpoint": "POST /repos/{owner}/{repo}/pulls"
+    },
+    "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?",
+    "answer": "In version 2025-06-01, maintainer_can_modify can be specified directly in the body during POST creation. In version 2022-11-28, it defaulted to true with no way to override it at creation time, requiring a follow-up PATCH call.",
+    "expected_chunk_id": "github_combined_p7#pull_request_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "05",
+    "level": "Hard",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [3, 2],
+      "tool_versions": ["2.x", "3.x"],
+      "tool_context": "Java Generator Migration",
+      "language": "Java"
+    },
+    "question": "Migrate a Java generator configuration from Swagger Codegen 2.x to 3.x that uses oneOf schemas and the webclient library. What config keys change?",
+    "answer": "1. Add 'useOneOfInterfaces': true to generate Java interfaces for OpenAPI oneOf schemas (new in v3). 2. Set 'library': 'webclient' (webclient was added in v3; v2 only supported jersey1, jersey2, feign, okhttp-gson, retrofit, retrofit2, resttemplate, resteasy). 3. Optionally nest these under an 'additionalProperties' block in YAML or JSON format.", "expected_chunk_id": "swagger_v3_p3#java_config_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "06",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 13,
+      "api_versions": ["2022-11-28", "2025-06-01"],
+      "tool_context": "GitHub REST API Migration",
+      "endpoint": "POST /repos/{owner}/{repo}/releases"
+    },
+    "question": "How does the make_latest parameter in GitHub API version 2025-06-01 release creation replace the undocumented heuristic used in 2022-11-28?",
+    "answer": "In version 2025-06-01, the optional 'make_latest' enum parameter (values: true, false, legacy) gives explicit control over whether a release becomes the repository's 'Latest' release. In version 2022-11-28, there was no make_latest field; 'Latest' status was determined by an undocumented internal heuristic based purely on publish date and prerelease/draft status.",
+    "expected_chunk_id": "github_combined_p13#release_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "07",
+    "level": "Hard",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [3, 2],
+      "tool_versions": ["2.x", "3.x"],
+      "tool_context": "Documentation Format Comparison",
+      "language": "Java"
+    },
+    "question": "How did the documentation format and options list for the Java client generator differ between Swagger Codegen 2.x and 3.x?",
+    "answer": "In 2.x, Java options were presented as a plain bulleted list with defaults written inline in prose (e.g., '(Default: true)'). In 3.x, options were structured into a clear markdown table with separate columns for Option, Type, Default, and Description. Additionally, 3.x added 'useOneOfInterfaces' and 'webclient'/'native' library options not present in 2.x.",
+    "expected_chunk_id": "swagger_v3_p3#java_config_diff; swagger_v2_p2#java_config",
+    "contains_exact_token": true
+  },
+  {
+    "id": "08",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 7,
+      "api_versions": ["2022-11-28", "2025-06-01"],
+      "tool_context": "GitHub REST API Feature Interaction",
+      "feature": "Draft PR Auto-Merge"
+    },
+    "question": "How did draft pull requests interact with auto-merge settings in GitHub API version 2022-11-28 versus 2025-06-01?",
+    "answer": "In version 2022-11-28, a draft PR could not have auto-merge enabled until it was explicitly marked ready for review. In version 2025-06-01, auto-merge can be pre-armed directly on a draft pull request.",
+    "expected_chunk_id": "github_combined_p7#pull_request_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "09",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 3,
+      "api_versions": ["2022-11-28", "2025-06-01"],
+      "tool_context": "GitHub REST API Feature Comparison",
+      "feature": "Table Wrapping"
+    },
+    "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01.",
+    "answer": "In version 2022-11-28, there was no wrap_tables option; wide tables in rendered output simply overflowed their container with no wrapping available. In version 2025-06-01, a new optional boolean flag 'wrap_tables' (default: false) was added to render wide tables with horizontal scroll wrappers.",
+    "expected_chunk_id": "github_combined_p3#markdown_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "10",
+    "level": "Hard",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [4, 3],
+      "tool_versions": ["2.x", "3.x"],
+      "tool_context": "Python Generator Migration",
+      "language": "Python"
+    },
+    "question": "Migrate a Python client configuration file from Swagger Codegen 2.x to 3.x to support asynchronous execution and YAML format. What steps are required?",
+    "answer": "1. Convert the config file format from JSON (.json) to YAML (.yaml), as v3 auto-detects .yaml extensions. 2. Specify 'library': 'asyncio' under 'additionalProperties' or as a top-level key (v2 lacked the library option entirely and defaulted exclusively to synchronous urllib3). 3. Ensure generated calling code uses async/await keywords.",
+    "expected_chunk_id": "swagger_v3_p4#python_config_diff; swagger_v3_p6#config_diff",
+    "contains_exact_token": true
+  },
+  {
+    "id": "11",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "github_combined_reference.pdf",
+      "page_number": 5,
+      "api_versions": ["2022-11-28", "2025-06-01"],
+      "tool_context": "GitHub REST API Issue Types",
+      "endpoint": "POST /repos/{owner}/{repo}/issues"
+    },
+    "question": "How did setting issue types on creation change between GitHub API versions 2022-11-28 and 2025-06-01?",
+    "answer": "In version 2025-06-01, a new optional 'type' parameter (string) allows setting the issue type directly at creation time during the initial POST request. In version 2022-11-28, there was no type field, requiring a second request after creation to set an issue type.",
+    "expected_chunk_id": "github_combined_p5#create_issue_v2025",
+    "contains_exact_token": true
+  },
+  {
+    "id": "12",
+    "level": "Hard",
+    "metadata": {
+      "target_file": [
+        "swagger_v3_reference.pdf",
+        "swagger_v2_reference.pdf"
+      ],
+      "page_number": [2, 1],
+      "tool_versions": ["2.x", "3.x"],
+      "tool_context": "CLI Output Comparison",
+      "feature": "--generate-markdown"
+    },
+    "question": "Compare generating standalone markdown documentation alongside client code in Swagger Codegen 2.x versus 3.x.",
+    "answer": "In 3.x, standalone markdown API docs can be generated alongside client code in a single run using the '--generate-markdown' CLI flag. In 2.x, the '--generate-markdown' flag did not exist; generating markdown documentation required a separate generation run using a documentation-only target (e.g., '-l html2').",
+    "expected_chunk_id": "swagger_v3_p2#compared_to_v2",
+    "contains_exact_token": true
+  },
+  {
+    "id": "13",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "none",
+      "is_negative_case": true,
+      "difficulty_style": "Highly Confusory",
+      "expected_behavior": "refusal_or_fallback",
+      "tool_context": "Fake Feature Interaction / Version Migration"
+    },
+    "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?",
+    "answer": "Information not provided in context. Neither GitHub API version 2022-11-28 nor 2025-06-01 documents a max_team_members parameter during repository creation.",
+    "expected_chunk_id": null
+  },
+  {
+    "id": "14",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "none",
+      "is_negative_case": true,
+      "difficulty_style": "Highly Confusory",
+      "expected_behavior": "refusal_or_fallback",
+      "tool_context": "Fake OpenAPI / Generator Feature Migration"
+    },
+    "question": "How do you configure the additionalProperties block in Swagger Codegen v3 to convert OpenAPI 3.0 anyOf schemas into Java sealed classes?",
+    "answer": "Information not provided in context. Although Swagger Codegen v3 introduced additionalProperties and the useOneOfInterfaces flag for oneOf schemas, the documentation does not contain any options or support for mapping anyOf schemas to Java sealed classes.",
+    "expected_chunk_id": null
+  },
+  {
+    "id": "15",
+    "level": "Hard",
+    "metadata": {
+      "target_file": "none",
+      "is_negative_case": true,
+      "difficulty_style": "Highly Confusory",
+      "expected_behavior": "refusal_or_fallback",
+      "tool_context": "Fake Cross-Version Migration"
+    },
+    "question": "What negation syntax can be used in Swagger Codegen 2.x inside .swagger-codegen-ignore to override an exclusion rule set in additionalProperties?",
+    "answer": "Information not provided in context. Swagger Codegen 2.x does not support negation syntax in .swagger-codegen-ignore files, nor does it support nesting generator options inside an additionalProperties configuration block.",
+    "expected_chunk_id": null
+  }
+]

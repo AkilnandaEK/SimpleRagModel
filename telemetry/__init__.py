@@ -1,0 +1,1 @@
+"""telemetry package — structured execution telemetry for the benchmark engine."""
