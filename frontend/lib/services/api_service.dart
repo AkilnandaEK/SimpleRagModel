@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '../models/benchmark_models.dart';
 import '../models/rag_models.dart';
+import '../models/trajectory_models.dart';
 
 class ApiService {
   static String get baseUrl {
@@ -145,6 +147,87 @@ class ApiService {
     }
 
     String detail = 'MRR evaluation failed (${response.statusCode})';
+    try {
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map && decoded['detail'] != null) {
+        detail = decoded['detail'].toString();
+      }
+    } catch (_) {
+      // Non-JSON error body — keep the status-code message.
+    }
+    throw Exception(detail);
+  }
+
+  /// POST /api/benchmark/run
+  ///
+  /// Runs the standardised Agent vs Workflow benchmark through the existing
+  /// backend runner. The benchmark can take a while, so no artificial timeout
+  /// is applied — the request stays open until the backend returns.
+  ///
+  /// [scenarioIds] is optional; when omitted the backend runs its default
+  /// 10-scenario set.
+  static Future<BenchmarkResult> runBenchmark({
+    List<String>? scenarioIds,
+  }) async {
+    final bodyMap = <String, dynamic>{};
+    if (scenarioIds != null && scenarioIds.isNotEmpty) {
+      bodyMap['scenario_ids'] = scenarioIds;
+    }
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/benchmark/run'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(bodyMap),
+    );
+
+    if (response.statusCode == 200) {
+      return BenchmarkResult.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
+    }
+
+    String detail = 'Benchmark failed (${response.statusCode})';
+    try {
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map && decoded['detail'] != null) {
+        detail = decoded['detail'].toString();
+      }
+    } catch (_) {
+      // Non-JSON error body — keep the status-code message.
+    }
+    throw Exception(detail);
+  }
+
+  /// POST /api/trajectory/run
+  ///
+  /// Runs the Week 8 trajectory evaluation suite. This executes every query
+  /// twice (baseline + mitigated) plus the injection suite, so it is slow —
+  /// several minutes against a live provider. No client timeout is applied;
+  /// the request stays open until the backend returns.
+  static Future<TrajectoryReport> runTrajectoryEval({
+    String? mode,
+    String? provider,
+    String? model,
+    bool includeInjection = true,
+  }) async {
+    final bodyMap = <String, dynamic>{'include_injection': includeInjection};
+    if (mode != null && mode.isNotEmpty) bodyMap['mode'] = mode;
+    if (provider != null && provider.isNotEmpty) bodyMap['provider'] = provider;
+    if (model != null && model.isNotEmpty) bodyMap['model'] = model;
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/trajectory/run'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(bodyMap),
+    );
+
+    if (response.statusCode == 200) {
+      return TrajectoryReport.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
+    }
+
+    String detail = 'Trajectory eval failed (${response.statusCode})';
     try {
       final decoded = jsonDecode(response.body);
       if (decoded is Map && decoded['detail'] != null) {

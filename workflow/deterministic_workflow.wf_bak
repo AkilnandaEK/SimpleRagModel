@@ -12,7 +12,6 @@ from typing import Any
 
 from benchmark.config import BenchmarkConfig
 from safety.circuit_breaker import CircuitBreaker
-from eval.offline_answers import synthesize_grounded_answer
 from telemetry.telemetry import ExecutionTelemetry
 from tools.reference_search import ReferenceSearchInput, reference_search
 from tools.chunk_retrieval import ChunkRetrievalInput, chunk_retrieval

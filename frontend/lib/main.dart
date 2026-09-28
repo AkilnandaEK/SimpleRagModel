@@ -1,10 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'models/benchmark_models.dart';
 import 'models/rag_models.dart';
+import 'models/trajectory_models.dart';
 import 'services/api_service.dart';
+import 'widgets/benchmark_view.dart';
 import 'widgets/chat_view.dart';
 import 'widgets/sidebar.dart';
+import 'widgets/trajectory_view.dart';
+
+/// The workspace's top-level tabs. Chat is the product; Evals is the lab that
+/// measures it.
+enum WorkspaceTab { chat, evals }
 
 void main() {
   runApp(const RagApp());
@@ -46,8 +54,14 @@ class _MainWorkspaceState extends State<MainWorkspace> {
   String? _selectedCollection;
   bool _debugMode = true; // Evaluation & debug mode enabled by default
   final Map<String, List<ChatMessage>> _chatHistory = {};
+  BenchmarkResult? _benchmarkResult;
   bool _isBackendConnected = false;
   Timer? _healthTimer;
+  WorkspaceTab _tab = WorkspaceTab.chat;
+
+  /// Kept at this level so switching tabs does not discard a completed run —
+  /// the trajectory suite takes minutes and must survive navigation.
+  TrajectoryReport? _trajectoryReport;
 
   @override
   void initState() {
@@ -99,6 +113,14 @@ class _MainWorkspaceState extends State<MainWorkspace> {
     } catch (_) {
       // Handled silently
     }
+  }
+
+  void _openBenchmarkDialog() {
+    showBenchmarkDialog(
+      context,
+      previousResult: _benchmarkResult,
+      onResult: (result) => setState(() => _benchmarkResult = result),
+    );
   }
 
   Future<void> _onSendQuestion(String question) async {
@@ -180,16 +202,32 @@ class _MainWorkspaceState extends State<MainWorkspace> {
             },
             onRefresh: _refreshCollections,
             isBackendConnected: _isBackendConnected,
+            onOpenBenchmark: _openBenchmarkDialog,
+            activeTab: _tab,
+            onSelectTab: (tab) => setState(() => _tab = tab),
           ),
           Expanded(
-            child: ChatView(
-              selectedCollection: _selectedCollection,
-              debugMode: _debugMode,
-              onDebugModeChanged: (val) {
-                setState(() => _debugMode = val);
-              },
-              messages: activeMessages,
-              onSendQuestion: _onSendQuestion,
+            // IndexedStack, not a switch: the Evals tab holds an in-progress or
+            // completed multi-minute run, and rebuilding it on every tab change
+            // would throw that away.
+            child: IndexedStack(
+              index: _tab.index,
+              children: [
+                ChatView(
+                  selectedCollection: _selectedCollection,
+                  debugMode: _debugMode,
+                  onDebugModeChanged: (val) {
+                    setState(() => _debugMode = val);
+                  },
+                  messages: activeMessages,
+                  onSendQuestion: _onSendQuestion,
+                ),
+                TrajectoryView(
+                  previousReport: _trajectoryReport,
+                  onReport: (report) =>
+                      setState(() => _trajectoryReport = report),
+                ),
+              ],
             ),
           ),
         ],

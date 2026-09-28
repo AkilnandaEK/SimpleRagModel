@@ -1,0 +1,2161 @@
+{
+  "mode": "live",
+  "provider": "groq",
+  "model": "qwen/qwen3.8-27b",
+  "collection": "sdk-v3-strategy-b",
+  "baseline": {
+    "label": "baseline",
+    "total_cases": 10,
+    "tool_choice_accuracy": 54.72,
+    "argument_validity_rate": 68.18,
+    "step_efficiency": 49.45,
+    "steps_ratio": 2.304,
+    "total_steps": 53,
+    "total_optimal_steps": 23,
+    "control_steps": 0,
+    "errored_cases": 0,
+    "scored_cases": 10,
+    "cost_p50_usd": 0.000819,
+    "cost_max_usd": 0.001993,
+    "cost_total_usd": 0.009758,
+    "cost_max_case_id": "T09",
+    "latency_p50_ms": 20968.59,
+    "latency_p99_ms": 58874.12,
+    "latency_max_ms": 58874.12,
+    "tokens_p50": 3031.5,
+    "tokens_max": 7383,
+    "tokens_total": 36142,
+    "outcome_pass_rate": 70.0,
+    "trajectory_pass_rate": 30.0,
+    "gap": 40.0,
+    "failure_mode_counts": {
+      "M1": 0,
+      "M2": 0,
+      "M3": 7,
+      "M4": 4,
+      "M5": 0,
+      "M6": 1,
+      "M7": 1
+    }
+  },
+  "mitigated": {
+    "label": "mitigated",
+    "total_cases": 10,
+    "tool_choice_accuracy": 53.19,
+    "argument_validity_rate": 100.0,
+    "step_efficiency": 60.09,
+    "steps_ratio": 2.043,
+    "total_steps": 47,
+    "total_optimal_steps": 23,
+    "control_steps": 7,
+    "errored_cases": 0,
+    "scored_cases": 10,
+    "cost_p50_usd": 0.000897,
+    "cost_max_usd": 0.001854,
+    "cost_total_usd": 0.010017,
+    "cost_max_case_id": "T09",
+    "latency_p50_ms": 26971.11,
+    "latency_p99_ms": 57384.66,
+    "latency_max_ms": 57384.66,
+    "tokens_p50": 3321.0,
+    "tokens_max": 6868,
+    "tokens_total": 37101,
+    "outcome_pass_rate": 90.0,
+    "trajectory_pass_rate": 60.0,
+    "gap": 30.0,
+    "failure_mode_counts": {
+      "M1": 0,
+      "M2": 0,
+      "M3": 0,
+      "M4": 4,
+      "M5": 0,
+      "M6": 0,
+      "M7": 2
+    }
+  },
+  "baseline_cases": [
+    {
+      "case_id": "T01",
+      "scenario_key": "easy:01",
+      "question": "What is the default value for the mode parameter when rendering a Markdown document in GitHub API version 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "structurally valid alternative path",
+      "outcome_pass": false,
+      "outcome_match_type": "incorrect",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 0.5,
+      "argument_validity_rate": 0.0,
+      "step_efficiency": 0.5,
+      "actual_steps": 4,
+      "optimal_steps": 2,
+      "cost_usd": 0.000538,
+      "latency_ms": 1576.28,
+      "total_tokens": 1993,
+      "failure_modes": [
+        "M3"
+      ],
+      "answer": "Information not provided in the supplied reference context.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "mode parameter Markdown document rendering default value",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "markdown rendering mode parameter",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 3,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'reference_search'",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "markdown render document mode field default",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 4,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: Information not provided in the supplied reference context...."
+        }
+      ]
+    },
+    {
+      "case_id": "T02",
+      "scenario_key": "easy:04",
+      "question": "What is the maximum file size limit supported when rendering Markdown content via the GitHub REST API?",
+      "actual_path": [
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 1.0,
+      "actual_steps": 2,
+      "optimal_steps": 2,
+      "cost_usd": 0.000293,
+      "latency_ms": 475.27,
+      "total_tokens": 1084,
+      "failure_modes": [],
+      "answer": "The maximum file size limit supported when rendering Markdown content via the GitHub REST API is 400 KB.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "maximum file size limit rendering Markdown content GitHub REST API",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The maximum file size limit supported when rendering Markdown content via the GitHub REST API is 400..."
+        }
+      ]
+    },
+    {
+      "case_id": "T03",
+      "scenario_key": "easy:13",
+      "question": "What is the rate limit for unauthenticated GraphQL queries in GitHub API version 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 8 exceeds reasonable ceiling 4",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 0.375,
+      "argument_validity_rate": 0.5714,
+      "step_efficiency": 0.25,
+      "actual_steps": 8,
+      "optimal_steps": 2,
+      "cost_usd": 0.00158,
+      "latency_ms": 11487.16,
+      "total_tokens": 5851,
+      "failure_modes": [
+        "M3",
+        "M4"
+      ],
+      "answer": "info",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "rate limit unauthenticated GraphQL queries version 2025-06-01",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "GraphQL rate limit unauthenticated 50 queries per minute",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 3,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "unauthenticated GraphQL rate limit 50 per minute",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'reference_search'",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "GraphQL rate limit unauthenticated 50 queries per hour",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 5,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "GraphQL unauthenticated queries 50",
+            "version": "2025"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 6,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "\"GraphQL\" \"rate limit\" \"50\" unauthenticated",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 7,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "What is the rate limit for unauthenticated GraphQL queries in GitHub API version 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 8,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: info..."
+        }
+      ]
+    },
+    {
+      "case_id": "T04",
+      "scenario_key": "medium:02",
+      "question": "Which CLI flag in Swagger Codegen v3 generates a standalone markdown API doc alongside client code?",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.5,
+      "actual_steps": 4,
+      "optimal_steps": 2,
+      "cost_usd": 0.000702,
+      "latency_ms": 21554.88,
+      "total_tokens": 2600,
+      "failure_modes": [],
+      "answer": "--generate-markdown",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "CLI flag markdown documentation swagger codegen v3",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "swagger_v3_reference.pdf__chunk_2"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Which CLI flag in Swagger Codegen v3 generates a standalone markdown API doc alongside client code?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=2"
+        },
+        {
+          "step": 4,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: --generate-markdown..."
+        }
+      ]
+    },
+    {
+      "case_id": "T05",
+      "scenario_key": "medium:05",
+      "question": "What new library option was added to the Python generator in Swagger Codegen v3 that produces async/await client methods?",
+      "actual_path": [
+        "reference_search",
+        "memory_search",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "hallucinated tool(s): ['memory_search']",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 0.25,
+      "argument_validity_rate": 0.6667,
+      "step_efficiency": 0.5,
+      "actual_steps": 4,
+      "optimal_steps": 2,
+      "cost_usd": 0.000657,
+      "latency_ms": 20382.29,
+      "total_tokens": 2435,
+      "failure_modes": [
+        "M3",
+        "M6"
+      ],
+      "answer": "The new library option is **asyncio**, which generates async/await client methods.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "Python generator async/await client methods new library option",
+            "version": "v3"
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "memory_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['chunk_retrieval', 'finish', 'reference_search'], got 'memory_search'",
+          "args_ok": false,
+          "args_reason": "unknown tool: 'memory_search'",
+          "tool_input": null,
+          "observation": "Unknown action: memory_search"
+        },
+        {
+          "step": 3,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "What new library option was added to the Python generator in Swagger Codegen v3 that produces async/await client methods?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=10"
+        },
+        {
+          "step": 4,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The new library option is **asyncio**, which generates async/await client methods...."
+        }
+      ]
+    },
+    {
+      "case_id": "T06",
+      "scenario_key": "medium:14",
+      "question": "What parameter is used to specify the auto-delete policy when archiving a repository using POST /repos/{owner}/{repo}/archive in GitHub API version 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 0.3333,
+      "step_efficiency": 0.5,
+      "actual_steps": 4,
+      "optimal_steps": 2,
+      "cost_usd": 0.000655,
+      "latency_ms": 19544.37,
+      "total_tokens": 2426,
+      "failure_modes": [
+        "M3"
+      ],
+      "answer": "Information not provided in the supplied reference context.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "archive repository auto_delete_policy 2025-06-01",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "POST /repos/{owner}/{repo}/archive auto_delete policy",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "archive repository parameters auto_delete_policy cleanup",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 4,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: Information not provided in the supplied reference context...."
+        }
+      ]
+    },
+    {
+      "case_id": "T07",
+      "scenario_key": "hard:01",
+      "question": "Compare how the context parameter format changed between GitHub API version 2022-11-28 and 2025-06-01 for rendering Markdown.",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "migration_analyzer",
+        "migration_analyzer",
+        "chunk_retrieval",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 7 exceeds reasonable ceiling 5",
+      "outcome_pass": false,
+      "outcome_match_type": "incorrect",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 0.2857,
+      "argument_validity_rate": 0.6667,
+      "step_efficiency": 0.4286,
+      "actual_steps": 7,
+      "optimal_steps": 3,
+      "cost_usd": 0.001317,
+      "latency_ms": 37939.49,
+      "total_tokens": 4876,
+      "failure_modes": [
+        "M3",
+        "M4"
+      ],
+      "answer": "Information not provided in the supplied reference context.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2022-11-28' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "context parameter format render Markdown",
+            "version": "2022-11-28"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "Markdown rendering",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['chunk_retrieval', 'migration_analyzer'], got 'reference_search'",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "context parameter Markdown apiVersion 2025-06-01",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 4,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how the context parameter format changed between GitHub API version 2022-11-28 and 2025-06-01 for rendering Markdown."
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=6"
+        },
+        {
+          "step": 5,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how the context parameter format changed between GitHub API version 2022-11-28 and 2025-06-01 for rendering Markdown."
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=6"
+        },
+        {
+          "step": 6,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_3"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 7,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: Information not provided in the supplied reference context...."
+        }
+      ]
+    },
+    {
+      "case_id": "T08",
+      "scenario_key": "hard:04",
+      "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.6,
+      "actual_steps": 5,
+      "optimal_steps": 3,
+      "cost_usd": 0.000935,
+      "latency_ms": 27719.92,
+      "total_tokens": 3463,
+      "failure_modes": [],
+      "answer": "In the 2022-11-28 API version, the `maintainer_can_modify` field could not be set during pull request creation; this required a subsequent PATCH request. Starting with the 2025-06-01 API version, the API supports specifying `maintainer_can_modify` directly at pull request creation time.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "maintainer_can_modify pull request creation 2022-11-28 vs 2025-06-01",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_15"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_15"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=10"
+        },
+        {
+          "step": 5,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: In the 2022-11-28 API version, the `maintainer_can_modify` field could not be set during pull reques..."
+        }
+      ]
+    },
+    {
+      "case_id": "T09",
+      "scenario_key": "hard:09",
+      "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01.",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "migration_analyzer",
+        "reference_search",
+        "migration_analyzer",
+        "chunk_retrieval",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "reference_search"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 9 exceeds reasonable ceiling 5",
+      "outcome_pass": false,
+      "outcome_match_type": "incorrect",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 0.3333,
+      "argument_validity_rate": 0.8889,
+      "step_efficiency": 0.3333,
+      "actual_steps": 9,
+      "optimal_steps": 3,
+      "cost_usd": 0.001993,
+      "latency_ms": 58874.12,
+      "total_tokens": 7383,
+      "failure_modes": [
+        "M3",
+        "M4",
+        "M7"
+      ],
+      "answer": "Information not provided in the supplied reference context. (System terminated: max_iterations)",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "Markdown table rendering behavior 2022-11-28 2025-06-01",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "Markdown table rendering modalities changes previous version 2022",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01."
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 4,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'reference_search'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "markdown table rendering GHFS markdown modalities",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 5,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01."
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 6,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_3"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 7,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_7"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 8,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01."
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 9,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": false,
+          "args_reason": "version='2022-11-28' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "render markdown gfm mode text context body parameters",
+            "version": "2022-11-28"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        }
+      ]
+    },
+    {
+      "case_id": "T10",
+      "scenario_key": "hard:13",
+      "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 6 exceeds reasonable ceiling 5",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 0.5,
+      "argument_validity_rate": 0.6,
+      "step_efficiency": 0.3333,
+      "actual_steps": 6,
+      "optimal_steps": 2,
+      "cost_usd": 0.001088,
+      "latency_ms": 32352.17,
+      "total_tokens": 4031,
+      "failure_modes": [
+        "M3",
+        "M4"
+      ],
+      "answer": "Information not provided in the supplied reference context.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": false,
+          "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "max_team_members repository creation version change",
+            "version": "2025-06-01"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "max_team_members",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "max_team_members repository creation 2025-06-01",
+            "version": "v3"
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'reference_search'",
+          "args_ok": false,
+          "args_reason": "version='2022-11-28' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+          "tool_input": {
+            "query": "GitHub REST API version 2022-11-28 max_team_members repository creation",
+            "version": "2022-11-28"
+          },
+          "observation": "Found 0 chunks. Status: not_found"
+        },
+        {
+          "step": 5,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "max_team_members parameter",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 6,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: Information not provided in the supplied reference context...."
+        }
+      ]
+    }
+  ],
+  "mitigated_cases": [
+    {
+      "case_id": "T01",
+      "scenario_key": "easy:01",
+      "question": "What is the default value for the mode parameter when rendering a Markdown document in GitHub API version 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "structurally valid alternative path",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 0.3333,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.6667,
+      "actual_steps": 3,
+      "optimal_steps": 2,
+      "cost_usd": 0.000635,
+      "latency_ms": 19254.18,
+      "total_tokens": 2351,
+      "failure_modes": [],
+      "answer": "The default value for the mode parameter is \"markdown\". It can be one of: markdown, gfm.",
+      "control_steps": 1,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "mode parameter default value markdown document",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['chunk_retrieval', 'finish', 'reference_search'], got 'migration_analyzer'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "What is the default value for the mode parameter when rendering a Markdown document in GitHub API version 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=6"
+        },
+        {
+          "step": 4,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The default value for the mode parameter is \"markdown\". It can be one of: markdown, gfm...."
+        }
+      ]
+    },
+    {
+      "case_id": "T02",
+      "scenario_key": "easy:04",
+      "question": "What is the maximum file size limit supported when rendering Markdown content via the GitHub REST API?",
+      "actual_path": [
+        "reference_search",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "structurally valid alternative path",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 0.3333,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.6667,
+      "actual_steps": 3,
+      "optimal_steps": 2,
+      "cost_usd": 0.000478,
+      "latency_ms": 15124.41,
+      "total_tokens": 1770,
+      "failure_modes": [],
+      "answer": "The maximum file size limit supported when rendering Markdown content via the GitHub REST API is 400 KB.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "maximum file size limit rendering Markdown content",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['chunk_retrieval', 'finish', 'reference_search'], got 'migration_analyzer'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "What is the maximum file size limit supported when rendering Markdown content via the GitHub REST API?"
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=7"
+        },
+        {
+          "step": 3,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The maximum file size limit supported when rendering Markdown content via the GitHub REST API is 400..."
+        }
+      ]
+    },
+    {
+      "case_id": "T03",
+      "scenario_key": "easy:13",
+      "question": "What is the rate limit for unauthenticated GraphQL queries in GitHub API version 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 1.0,
+      "actual_steps": 2,
+      "optimal_steps": 2,
+      "cost_usd": 0.000432,
+      "latency_ms": 13006.46,
+      "total_tokens": 1601,
+      "failure_modes": [],
+      "answer": "Information not provided in the supplied reference context.",
+      "control_steps": 1,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "unauthenticated GraphQL rate limit",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: Information not provided in the supplied reference context...."
+        }
+      ]
+    },
+    {
+      "case_id": "T04",
+      "scenario_key": "medium:02",
+      "question": "Which CLI flag in Swagger Codegen v3 generates a standalone markdown API doc alongside client code?",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 5 exceeds reasonable ceiling 4",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 0.6,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.4,
+      "actual_steps": 5,
+      "optimal_steps": 2,
+      "cost_usd": 0.000892,
+      "latency_ms": 26784.61,
+      "total_tokens": 3302,
+      "failure_modes": [
+        "M4"
+      ],
+      "answer": "The `--generate-markdown` flag (new in v3; it did not exist in 2.x) generates a standalone Markdown API doc alongside client code.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "CLI flag standalone markdown API doc client code",
+            "version": "v3"
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "swagger_v3_reference.pdf__chunk_2"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Which CLI flag in Swagger Codegen v3 generates a standalone markdown API doc alongside client code?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=7"
+        },
+        {
+          "step": 4,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'migration_analyzer'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Which CLI flag in Swagger Codegen v3 generates a standalone markdown API doc alongside client code?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=7"
+        },
+        {
+          "step": 5,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The `--generate-markdown` flag (new in v3; it did not exist in 2.x) generates a standalone Markdown ..."
+        }
+      ]
+    },
+    {
+      "case_id": "T05",
+      "scenario_key": "medium:05",
+      "question": "What new library option was added to the Python generator in Swagger Codegen v3 that produces async/await client methods?",
+      "actual_path": [
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 1.0,
+      "actual_steps": 2,
+      "optimal_steps": 2,
+      "cost_usd": 0.0003,
+      "latency_ms": 9691.9,
+      "total_tokens": 1110,
+      "failure_modes": [],
+      "answer": "The `asyncio` library was added to the Python generator in Swagger Codegen v3, which generates `async`/`await` client methods.",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "Python generator async await client methods aiopika",
+            "version": "v3"
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The `asyncio` library was added to the Python generator in Swagger Codegen v3, which generates `asyn..."
+        }
+      ]
+    },
+    {
+      "case_id": "T06",
+      "scenario_key": "medium:14",
+      "question": "What parameter is used to specify the auto-delete policy when archiving a repository using POST /repos/{owner}/{repo}/archive in GitHub API version 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "reference_search",
+        "reference_search",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.5,
+      "actual_steps": 4,
+      "optimal_steps": 2,
+      "cost_usd": 0.001233,
+      "latency_ms": 36352.99,
+      "total_tokens": 4568,
+      "failure_modes": [],
+      "answer": "Information not provided in the supplied reference context.",
+      "control_steps": 2,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "POST /repos/{owner}/{repo}/archive auto-delete policy parameter",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "archive repository auto-delete policy",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "archive repository auto-delete policy",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 6,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: Information not provided in the supplied reference context...."
+        }
+      ]
+    },
+    {
+      "case_id": "T07",
+      "scenario_key": "hard:01",
+      "question": "Compare how the context parameter format changed between GitHub API version 2022-11-28 and 2025-06-01 for rendering Markdown.",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": true,
+      "path_reason": "exact match against declared path set",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 1.0,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.75,
+      "actual_steps": 4,
+      "optimal_steps": 3,
+      "cost_usd": 0.000902,
+      "latency_ms": 27157.61,
+      "total_tokens": 3340,
+      "failure_modes": [],
+      "answer": "The context parameter format for the \"Render a Markdown document\" endpoint changed between the 2022-11-28 and 2025-06-01 API versions as follows: In version 2022-11-28, the context parameter was a plain string (e.g., \"octocat/Hello-World\"). In version 2025-06-01, the context parameter format changed to a structured object rather than a plain string.",
+      "control_steps": 1,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "context parameter format Markdown 2022-11-28 vs 2025-06-01",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_3"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how the context parameter format changed between GitHub API version 2022-11-28 and 2025-06-01 for rendering Markdown."
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=10"
+        },
+        {
+          "step": 5,
+          "tool": "finish",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: The context parameter format for the \"Render a Markdown document\" endpoint changed between the 2022-..."
+        }
+      ]
+    },
+    {
+      "case_id": "T08",
+      "scenario_key": "hard:04",
+      "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "migration_analyzer",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "finish"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 7 exceeds reasonable ceiling 5",
+      "outcome_pass": true,
+      "outcome_match_type": "contains_token",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 0.4286,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.4286,
+      "actual_steps": 7,
+      "optimal_steps": 3,
+      "cost_usd": 0.001443,
+      "latency_ms": 43443.02,
+      "total_tokens": 5346,
+      "failure_modes": [
+        "M4"
+      ],
+      "answer": "In GitHub API version 2022-11-28, the `maintainer_can_modify` option could not be specified when creating a pull request; it had to be set afterward using a follow-up PATCH request to update the pull request. Starting with API version 2025-06-01, the `maintainer_can_modify` parameter is supported directly at creation time (POST /repos/{owner}/{repo}/pulls), so no separate PATCH request is required.",
+      "control_steps": 1,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 2,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "maintainer_can_modify pull request creation",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_15"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=7"
+        },
+        {
+          "step": 5,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'migration_analyzer'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=7"
+        },
+        {
+          "step": 6,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_15"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 7,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting maintainer_can_modify during pull request creation change between GitHub API 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=True, confidence=0.9, findings=8"
+        },
+        {
+          "step": 8,
+          "tool": "finish",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": null,
+          "observation": "Answer generated: In GitHub API version 2022-11-28, the `maintainer_can_modify` option could not be specified when cre..."
+        }
+      ]
+    },
+    {
+      "case_id": "T09",
+      "scenario_key": "hard:09",
+      "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01.",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "reference_search",
+        "chunk_retrieval",
+        "migration_analyzer",
+        "reference_search",
+        "migration_analyzer"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 8 exceeds reasonable ceiling 5",
+      "outcome_pass": false,
+      "outcome_match_type": "incorrect",
+      "is_false_positive": false,
+      "tool_choice_accuracy": 0.375,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.375,
+      "actual_steps": 8,
+      "optimal_steps": 3,
+      "cost_usd": 0.001854,
+      "latency_ms": 57198.45,
+      "total_tokens": 6868,
+      "failure_modes": [
+        "M4",
+        "M7"
+      ],
+      "answer": "Information not provided in the supplied reference context. (System terminated: max_iterations)",
+      "control_steps": 1,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "Markdown table rendering behavior 2022-11-28 2025-06-01",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_7"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01."
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 4,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['finish'], got 'reference_search'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "gfm table rendering Markdown endpoint 2022-11-28",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 5,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_7"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 6,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01."
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 8,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "prior version 2022-11-28 markdown render accept text mode context",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 9,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "Compare how Markdown table rendering behavior changed between GitHub API version 2022-11-28 and 2025-06-01."
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        }
+      ]
+    },
+    {
+      "case_id": "T10",
+      "scenario_key": "hard:13",
+      "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?",
+      "actual_path": [
+        "reference_search",
+        "chunk_retrieval",
+        "reference_search",
+        "migration_analyzer",
+        "reference_search",
+        "migration_analyzer",
+        "migration_analyzer",
+        "chunk_retrieval",
+        "migration_analyzer"
+      ],
+      "trajectory_pass": false,
+      "path_reason": "path length 9 exceeds reasonable ceiling 5",
+      "outcome_pass": true,
+      "outcome_match_type": "semantic_refusal",
+      "is_false_positive": true,
+      "tool_choice_accuracy": 0.2222,
+      "argument_validity_rate": 1.0,
+      "step_efficiency": 0.2222,
+      "actual_steps": 9,
+      "optimal_steps": 2,
+      "cost_usd": 0.001848,
+      "latency_ms": 57384.66,
+      "total_tokens": 6845,
+      "failure_modes": [
+        "M4",
+        "M7"
+      ],
+      "answer": "Information not provided in the supplied reference context. (System terminated: max_iterations)",
+      "control_steps": 0,
+      "infra_error": null,
+      "steps": [
+        {
+          "step": 1,
+          "tool": "reference_search",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "max_team_members repository creation 2022-11-28",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 2,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": true,
+          "tool_choice_reason": "on an allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_21"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 3,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "expected one of ['migration_analyzer'], got 'reference_search'",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "max_team_members repository creation 2025-06-01",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 4,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 5,
+          "tool": "reference_search",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "query": "max_team_members private repository creation changes",
+            "version": null
+          },
+          "observation": "Found 5 chunks. Status: found"
+        },
+        {
+          "step": 6,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 7,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        },
+        {
+          "step": 8,
+          "tool": "chunk_retrieval",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "chunk_id": "github_combined_reference.pdf__chunk_21"
+          },
+          "observation": "Retrieved chunk. Status: found"
+        },
+        {
+          "step": 9,
+          "tool": "migration_analyzer",
+          "tool_choice_ok": false,
+          "tool_choice_reason": "trajectory already diverged from every allowed path",
+          "args_ok": true,
+          "args_reason": "",
+          "tool_input": {
+            "question": "How did setting the max_team_members restriction during repository creation change between GitHub API version 2022-11-28 and 2025-06-01?"
+          },
+          "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+        }
+      ]
+    }
+  ],
+  "gap": {
+    "outcome_pass_rate": 70.0,
+    "trajectory_pass_rate": 30.0,
+    "gap": 40.0,
+    "false_positive_case_ids": [
+      "T03",
+      "T05",
+      "T06",
+      "T10"
+    ],
+    "false_positive_count": 4
+  },
+  "exposed_trace": {
+    "case_id": "T03",
+    "scenario_key": "easy:13",
+    "question": "What is the rate limit for unauthenticated GraphQL queries in GitHub API version 2025-06-01?",
+    "answer": "info",
+    "outcome_verdict": "PASS (semantic_refusal)",
+    "trajectory_verdict": "FAIL (path length 8 exceeds reasonable ceiling 4)",
+    "failure_modes": [
+      {
+        "code": "M3",
+        "name": "invalid_arguments",
+        "description": "A tool call carried arguments that fail validation: empty/degenerate query, a chunk_id absent from the corpus, or an invented version string."
+      },
+      {
+        "code": "M4",
+        "name": "redundant_steps",
+        "description": "Took strictly more steps than the optimal path needs \u2014 repeated or looping tool calls."
+      }
+    ],
+    "actual_path": [
+      "reference_search",
+      "reference_search",
+      "reference_search",
+      "reference_search",
+      "reference_search",
+      "reference_search",
+      "migration_analyzer",
+      "finish"
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "tool": "reference_search",
+        "tool_choice_ok": true,
+        "tool_choice_reason": "on an allowed path",
+        "args_ok": true,
+        "args_reason": "",
+        "tool_input": {
+          "query": "rate limit unauthenticated GraphQL queries version 2025-06-01",
+          "version": null
+        },
+        "observation": "Found 5 chunks. Status: found"
+      },
+      {
+        "step": 2,
+        "tool": "reference_search",
+        "tool_choice_ok": true,
+        "tool_choice_reason": "on an allowed path",
+        "args_ok": false,
+        "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+        "tool_input": {
+          "query": "GraphQL rate limit unauthenticated 50 queries per minute",
+          "version": "2025-06-01"
+        },
+        "observation": "Found 0 chunks. Status: not_found"
+      },
+      {
+        "step": 3,
+        "tool": "reference_search",
+        "tool_choice_ok": true,
+        "tool_choice_reason": "on an allowed path",
+        "args_ok": true,
+        "args_reason": "",
+        "tool_input": {
+          "query": "unauthenticated GraphQL rate limit 50 per minute",
+          "version": null
+        },
+        "observation": "Found 5 chunks. Status: found"
+      },
+      {
+        "step": 4,
+        "tool": "reference_search",
+        "tool_choice_ok": false,
+        "tool_choice_reason": "expected one of ['finish'], got 'reference_search'",
+        "args_ok": false,
+        "args_reason": "version='2025-06-01' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+        "tool_input": {
+          "query": "GraphQL rate limit unauthenticated 50 queries per hour",
+          "version": "2025-06-01"
+        },
+        "observation": "Found 0 chunks. Status: not_found"
+      },
+      {
+        "step": 5,
+        "tool": "reference_search",
+        "tool_choice_ok": false,
+        "tool_choice_reason": "trajectory already diverged from every allowed path",
+        "args_ok": false,
+        "args_reason": "version='2025' matches no sdk_version in the corpus (accepted: ['v3']) \u2014 filter silently returns nothing",
+        "tool_input": {
+          "query": "GraphQL unauthenticated queries 50",
+          "version": "2025"
+        },
+        "observation": "Found 0 chunks. Status: not_found"
+      },
+      {
+        "step": 6,
+        "tool": "reference_search",
+        "tool_choice_ok": false,
+        "tool_choice_reason": "trajectory already diverged from every allowed path",
+        "args_ok": true,
+        "args_reason": "",
+        "tool_input": {
+          "query": "\"GraphQL\" \"rate limit\" \"50\" unauthenticated",
+          "version": null
+        },
+        "observation": "Found 5 chunks. Status: found"
+      },
+      {
+        "step": 7,
+        "tool": "migration_analyzer",
+        "tool_choice_ok": false,
+        "tool_choice_reason": "trajectory already diverged from every allowed path",
+        "args_ok": true,
+        "args_reason": "",
+        "tool_input": {
+          "question": "What is the rate limit for unauthenticated GraphQL queries in GitHub API version 2025-06-01?"
+        },
+        "observation": "Analysis: is_answerable=False, confidence=0.0, findings=10"
+      },
+      {
+        "step": 8,
+        "tool": "finish",
+        "tool_choice_ok": false,
+        "tool_choice_reason": "trajectory already diverged from every allowed path",
+        "args_ok": true,
+        "args_reason": "",
+        "tool_input": null,
+        "observation": "Answer generated: info..."
+      }
+    ]
+  },
+  "mitigation": {
+    "name": "arg_schema_validation",
+    "description": "Argument schema validation on reference_search: a `version` filter whose value matches no sdk_version in the corpus is rejected before the tool runs, and the agent is told the accepted values. Previously such a filter was passed straight through and silently matched nothing, so the agent read an empty result as 'the docs do not cover this'.",
+    "target_mode": "M3",
+    "target_mode_name": "invalid_arguments",
+    "target_before": 7,
+    "target_after": 0,
+    "target_delta": -7,
+    "was_top_mode": true,
+    "measured_top_mode": "M3",
+    "interventions": 7,
+    "price": {
+      "latency_p50_delta_ms": 6002.53,
+      "latency_p99_delta_ms": -1489.46,
+      "tokens_per_query_delta": 95.9,
+      "cost_per_query_delta_usd": 2.6e-05,
+      "cost_p50_delta_usd": 7.8e-05,
+      "steps_delta": -6
+    }
+  },
+  "regression_matrix": [
+    {
+      "code": "M1",
+      "name": "skipped_retrieval",
+      "before": 0,
+      "after": 0,
+      "delta": 0,
+      "status": "UNCHANGED"
+    },
+    {
+      "code": "M2",
+      "name": "wrong_tool_order",
+      "before": 0,
+      "after": 0,
+      "delta": 0,
+      "status": "UNCHANGED"
+    },
+    {
+      "code": "M3",
+      "name": "invalid_arguments",
+      "before": 7,
+      "after": 0,
+      "delta": -7,
+      "status": "IMPROVED"
+    },
+    {
+      "code": "M4",
+      "name": "redundant_steps",
+      "before": 4,
+      "after": 4,
+      "delta": 0,
+      "status": "UNCHANGED"
+    },
+    {
+      "code": "M5",
+      "name": "missing_analysis",
+      "before": 0,
+      "after": 0,
+      "delta": 0,
+      "status": "UNCHANGED"
+    },
+    {
+      "code": "M6",
+      "name": "unsupported_tool",
+      "before": 1,
+      "after": 0,
+      "delta": -1,
+      "status": "IMPROVED"
+    },
+    {
+      "code": "M7",
+      "name": "budget_exhausted",
+      "before": 1,
+      "after": 2,
+      "delta": 1,
+      "status": "WORSENED"
+    }
+  ],
+  "injection": null
+}

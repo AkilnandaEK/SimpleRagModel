@@ -1,0 +1,90 @@
+﻿================================================================================
+agent/agent_loop.py                                     | 388 lines
+================================================================================
+    9| - "offline": an observation-driven OfflineReasoner decides each step,
+   20| from benchmark.llm import LLMCallResult, OfflineReasoner, llm_call, REFUSAL_ANSWER
+   57| chunks_retrieved: list[str] = field(default_factory=list)
+   58| is_answerable: bool = False
+  116| return {"action": "finish", "answer": llm_text, "is_answerable": False}
+  136| params.setdefault("is_answerable", True)
+  144| last_observation: str,
+  147| evidence_count: int,
+  162| elif evidence_count > 0 and step > 2:
+  180| {', '.join(state.chunks_retrieved) if state.chunks_retrieved else "None yet"}
+  186| {last_observation if last_observation else "No previous observation."}
+  199| reasoner: OfflineReasoner | None = None,
+  213| reasoner = reasoner or OfflineReasoner(max_steps=cb.max_iterations)
+  215| last_observation = ""
+  225| decision = reasoner.decide(
+  227| evidence_count=len(state.collected_evidence),
+  228| last_observation=last_observation,
+  231| chunks_retrieved=state.chunks_retrieved,
+  232| is_answerable=state.is_answerable,
+  243| question, state, step, last_observation,
+  246| evidence_count=len(state.collected_evidence),
+  290| state.chunks_retrieved.extend([r.chunk_id for r in search_result.results])
+  293| last_observation = trace_step.observation
+  313| state.chunks_retrieved.append(retrieval_result.chunk.chunk_id)
+  316| last_observation = trace_step.observation
+  337| f"Analysis: is_answerable={analysis_result.is_answerable}, "
+  341| state.is_answerable = analysis_result.is_answerable
+  345| state.is_answerable = False
+  347| last_observation = trace_step.observation
+  352| state.answer = decision.get("answer") or REFUSAL_ANSWER
+  353| state.is_answerable = bool(decision.get("is_answerable", False))
+  357| last_observation = trace_step.observation
+  364| last_observation = trace_step.observation
+  374| state.is_answerable = False
+  382| state.is_answerable = False
+  386| telemetry.actual_behavior = "answered" if state.is_answerable else "refused"
+
+================================================================================
+workflow/deterministic_workflow.py                      | 222 lines
+================================================================================
+   19| from benchmark.llm import llm_call, REFUSAL_ANSWER
+   29| is_answerable: bool = False
+   91| return analysis_result.is_answerable, analysis_result.evidence
+   97| is_answerable: bool,
+  102| if not evidence or not is_answerable:
+  103| return REFUSAL_ANSWER
+  190| is_answerable, evidence_text = _step3_analyze(question, retrieved, cb)
+  191| state.step_results["analyze"] = {"is_answerable": is_answerable, "evidence": evidence_text}
+  202| state.answer = _step4_generate_answer(question, retrieved, is_answerable, cb, config)
+  203| state.is_answerable = is_answerable
+  214| telemetry.actual_behavior = "answered" if state.is_answerable else "refused"
+
+================================================================================
+workflow/deterministic_workflow.py                      | 222 lines
+================================================================================
+   19| from benchmark.llm import llm_call, REFUSAL_ANSWER
+   29| is_answerable: bool = False
+   91| return analysis_result.is_answerable, analysis_result.evidence
+   97| is_answerable: bool,
+  102| if not evidence or not is_answerable:
+  103| return REFUSAL_ANSWER
+  190| is_answerable, evidence_text = _step3_analyze(question, retrieved, cb)
+  191| state.step_results["analyze"] = {"is_answerable": is_answerable, "evidence": evidence_text}
+  202| state.answer = _step4_generate_answer(question, retrieved, is_answerable, cb, config)
+  203| state.is_answerable = is_answerable
+  214| telemetry.actual_behavior = "answered" if state.is_answerable else "refused"
+
+================================================================================
+benchmark/llm.py                                        | 130 lines
+================================================================================
+   62| REFUSAL_ANSWER = "Information not provided in the supplied reference context."
+   65| class OfflineReasoner:
+   81| def decide(
+   84| evidence_count: int,
+   85| last_observation: str,
+   88| chunks_retrieved: list[str],
+   89| is_answerable: bool | None = None,
+   92| return {"action": "finish", "answer": REFUSAL_ANSWER, "is_answerable": False}
+   94| if evidence_count == 0:
+   96| return {"action": "finish", "answer": REFUSAL_ANSWER, "is_answerable": False}
+  106| top_chunk = chunks_retrieved[0] if chunks_retrieved else None
+  116| if is_answerable:
+  117| return {"action": "finish", "answer": _answer_from_observation(last_observation, question), "is_answerable": True}
+  119| return {"action": "finish", "answer": REFUSAL_ANSWER, "is_answerable": False}
+  122| def _answer_from_observation(observation: str, question: str) -> str:
+  125| return REFUSAL_ANSWER
+
