@@ -1,0 +1,306 @@
+{
+  "artifact": "Week 9 combined MCP integration verification",
+  "config_path": "<default: repo root mcp_config.json>",
+  "tool_counts": {
+    "per_server": {
+      "doc-search": 4,
+      "package-registry": 16
+    },
+    "combined_discovered": 20,
+    "arithmetic_sum": 20,
+    "combined_equals_arithmetic": true,
+    "basis": "host merged N live tools/list responses; not a hardcoded constant"
+  },
+  "discovery": {
+    "servers": [
+      {
+        "name": "doc-search",
+        "command": "E:\\week3\\.venv\\Scripts\\python.exe E:\\week3\\mcp servers\\doc_search_server.py",
+        "connected": true,
+        "server_info": {
+          "name": "doc-search",
+          "title": null,
+          "version": "1.30.0",
+          "websiteUrl": null,
+          "icons": null
+        },
+        "protocol_version": "2025-11-25",
+        "tools": [
+          "list_collections",
+          "list_documents",
+          "search_documents",
+          "get_chunk"
+        ],
+        "tool_count": 4,
+        "error": ""
+      },
+      {
+        "name": "package-registry",
+        "command": "npx -y package-registry-mcp",
+        "connected": true,
+        "server_info": {
+          "name": "package-registry",
+          "title": null,
+          "version": "1.0.0",
+          "websiteUrl": null,
+          "icons": null
+        },
+        "protocol_version": "2025-06-18",
+        "tools": [
+          "get-cargo-package-details",
+          "search-cargo-packages",
+          "list-cargo-package-versions",
+          "get-github-advisory",
+          "search-github-advisories",
+          "get-package-advisories",
+          "get-golang-package-details",
+          "list-golang-package-versions",
+          "get-npm-package-details",
+          "search-npm-packages",
+          "list-npm-package-versions",
+          "get-nuget-package-details",
+          "search-nuget-packages",
+          "list-nuget-package-versions",
+          "get-pypi-package-details",
+          "list-pypi-package-versions"
+        ],
+        "tool_count": 16,
+        "error": ""
+      }
+    ],
+    "per_server_tool_counts": {
+      "doc-search": 4,
+      "package-registry": 16
+    },
+    "combined_tool_count": 20,
+    "tool_names": [
+      "doc-search__list_collections",
+      "doc-search__list_documents",
+      "doc-search__search_documents",
+      "doc-search__get_chunk",
+      "package-registry__get-cargo-package-details",
+      "package-registry__search-cargo-packages",
+      "package-registry__list-cargo-package-versions",
+      "package-registry__get-github-advisory",
+      "package-registry__search-github-advisories",
+      "package-registry__get-package-advisories",
+      "package-registry__get-golang-package-details",
+      "package-registry__list-golang-package-versions",
+      "package-registry__get-npm-package-details",
+      "package-registry__search-npm-packages",
+      "package-registry__list-npm-package-versions",
+      "package-registry__get-nuget-package-details",
+      "package-registry__search-nuget-packages",
+      "package-registry__list-nuget-package-versions",
+      "package-registry__get-pypi-package-details",
+      "package-registry__list-pypi-package-versions"
+    ],
+    "aliases": {
+      "doc-search__list_collections": [
+        "list_collections"
+      ],
+      "doc-search__list_documents": [
+        "list_documents"
+      ],
+      "doc-search__search_documents": [
+        "search_documents"
+      ],
+      "doc-search__get_chunk": [
+        "get_chunk"
+      ],
+      "package-registry__get-cargo-package-details": [
+        "get-cargo-package-details"
+      ],
+      "package-registry__search-cargo-packages": [
+        "search-cargo-packages"
+      ],
+      "package-registry__list-cargo-package-versions": [
+        "list-cargo-package-versions"
+      ],
+      "package-registry__get-github-advisory": [
+        "get-github-advisory"
+      ],
+      "package-registry__search-github-advisories": [
+        "search-github-advisories"
+      ],
+      "package-registry__get-package-advisories": [
+        "get-package-advisories"
+      ],
+      "package-registry__get-golang-package-details": [
+        "get-golang-package-details"
+      ],
+      "package-registry__list-golang-package-versions": [
+        "list-golang-package-versions"
+      ],
+      "package-registry__get-npm-package-details": [
+        "get-npm-package-details"
+      ],
+      "package-registry__search-npm-packages": [
+        "search-npm-packages"
+      ],
+      "package-registry__list-npm-package-versions": [
+        "list-npm-package-versions"
+      ],
+      "package-registry__get-nuget-package-details": [
+        "get-nuget-package-details"
+      ],
+      "package-registry__search-nuget-packages": [
+        "search-nuget-packages"
+      ],
+      "package-registry__list-nuget-package-versions": [
+        "list-nuget-package-versions"
+      ],
+      "package-registry__get-pypi-package-details": [
+        "get-pypi-package-details"
+      ],
+      "package-registry__list-pypi-package-versions": [
+        "list-pypi-package-versions"
+      ]
+    },
+    "collisions": []
+  },
+  "handshake": [
+    {
+      "server": "doc-search",
+      "connected": true,
+      "server_info": {
+        "name": "doc-search",
+        "title": null,
+        "version": "1.30.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocol_version": "2025-11-25",
+      "error": ""
+    },
+    {
+      "server": "package-registry",
+      "connected": true,
+      "server_info": {
+        "name": "package-registry",
+        "title": null,
+        "version": "1.0.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocol_version": "2025-06-18",
+      "error": ""
+    }
+  ],
+  "calls": [
+    {
+      "server": "doc-search",
+      "tool": "list_collections",
+      "qualified_name": "doc-search__list_collections",
+      "arguments": {},
+      "required_params": [],
+      "arguments_source": "synthesised from the tool's own inputSchema",
+      "host_route": {
+        "server": "doc-search",
+        "tool": "list_collections"
+      },
+      "ok": true,
+      "is_error": false,
+      "response_server": "doc-search",
+      "response_tool": "list_collections",
+      "routed_correctly": true,
+      "content_block_types": [
+        "text"
+      ],
+      "result_preview": "{\n  \"collections\": [\n    {\n      \"name\": \"recipe_rag_test_corpus\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"test-2\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"sdk-v3-strategy-b\",\n      \"count\": 66\n    },\n    {\n      \"name\": \"sdk-v3-strategy-a\",\n      \"count\": 14\n    },\n    {\n      \"name\": \"recipe-rag-test-corpus\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"trace-test\",\n      \"count\": 3",
+      "result_length": 458,
+      "text_reports_error_despite_is_error_false": false,
+      "elapsed_s": 0.25
+    },
+    {
+      "server": "package-registry",
+      "tool": "get-npm-package-details",
+      "qualified_name": "package-registry__get-npm-package-details",
+      "arguments": {
+        "name": "react"
+      },
+      "required_params": [
+        "name"
+      ],
+      "arguments_source": "synthesised from the tool's own inputSchema",
+      "host_route": {
+        "server": "package-registry",
+        "tool": "get-npm-package-details"
+      },
+      "ok": true,
+      "is_error": false,
+      "response_server": "package-registry",
+      "response_tool": "get-npm-package-details",
+      "routed_correctly": true,
+      "content_block_types": [
+        "text"
+      ],
+      "result_preview": "{\n  \"package\": {\n    \"name\": \"react\",\n    \"description\": \"React is a JavaScript library for building user interfaces.\",\n    \"latestVersion\": \"19.3.0\",\n    \"license\": \"MIT\",\n    \"homepage\": \"https://react.dev/\",\n    \"repository\": {\n      \"url\": \"git+https://github.com/react/react.git\",\n      \"type\": \"git\",\n      \"directory\": \"packages/react\"\n    },\n    \"maintainers\": [\n      {\n        \"name\": \"fb\",",
+      "result_length": 2831,
+      "text_reports_error_despite_is_error_false": false,
+      "elapsed_s": 0.48
+    }
+  ],
+  "config_servers": [
+    "doc-search",
+    "package-registry"
+  ],
+  "discovered_tool_sample": [
+    {
+      "server": "doc-search",
+      "tool": "list_collections",
+      "qualified_name": "doc-search__list_collections",
+      "description": "List every ChromaDB collection available to search, with chunk counts.",
+      "input_schema": {
+        "properties": {},
+        "title": "list_collectionsArguments",
+        "type": "object"
+      },
+      "output_schema": {
+        "additionalProperties": true,
+        "title": "list_collectionsDictOutput",
+        "type": "object"
+      },
+      "aliases": [
+        "list_collections"
+      ]
+    },
+    {
+      "server": "doc-search",
+      "tool": "list_documents",
+      "qualified_name": "doc-search__list_documents",
+      "description": "List the source documents indexed in a collection, with per-file chunk counts.",
+      "input_schema": {
+        "properties": {
+          "collection_name": {
+            "default": "sdk-v3-strategy-b",
+            "title": "Collection Name",
+            "type": "string"
+          }
+        },
+        "title": "list_documentsArguments",
+        "type": "object"
+      },
+      "output_schema": {
+        "additionalProperties": true,
+        "title": "list_documentsDictOutput",
+        "type": "object"
+      },
+      "aliases": [
+        "list_documents"
+      ]
+    }
+  ],
+  "alias_routing": [
+    {
+      "alias": "list_collections",
+      "qualified_name": "doc-search__list_collections",
+      "resolves_to": [
+        "doc-search",
+        "list_collections"
+      ]
+    }
+  ],
+  "payloads_distinct": true,
+  "elapsed_s": 19.28
+}
