@@ -16,3 +16,11 @@ if str(ROOT) not in sys.path:
 def config():
     from benchmark.config import load_config_from_env
     return load_config_from_env()
+
+
+def pytest_configure(config):
+    """Register the project markers (there is no pytest.ini/pyproject.toml)."""
+    config.addinivalue_line(
+        "markers",
+        "live: spawns real MCP servers; slow (tens of seconds) and needs the network",
+    )

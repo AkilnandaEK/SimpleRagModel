@@ -12,6 +12,13 @@ class Sidebar extends StatelessWidget {
   final VoidCallback onRefresh;
   final bool isBackendConnected;
   final VoidCallback onOpenBenchmark;
+
+  /// Runs the live Week 10 Single Agent vs Multi-Agent Squad race.
+  final VoidCallback onOpenWeek10Results;
+
+  /// True while a Week 10 race is executing, so the action can be disabled and
+  /// duplicate runs prevented.
+  final bool isWeek10Running;
   final WorkspaceTab activeTab;
   final ValueChanged<WorkspaceTab> onSelectTab;
 
@@ -23,6 +30,8 @@ class Sidebar extends StatelessWidget {
     required this.onRefresh,
     required this.isBackendConnected,
     required this.onOpenBenchmark,
+    required this.onOpenWeek10Results,
+    required this.isWeek10Running,
     required this.activeTab,
     required this.onSelectTab,
   });
@@ -441,6 +450,67 @@ class Sidebar extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Week 10 — genuinely executes the Single Agent vs
+                // Multi-Agent Squad race through POST
+                // /api/benchmark/week10/race.
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: isWeek10Running ? null : onOpenWeek10Results,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFFCBD5E1),
+                      disabledForegroundColor: const Color(0xFF64748B),
+                      side: const BorderSide(color: Color(0xFF334155)),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    // Built as an explicit Row + Flexible rather than
+                    // OutlinedButton.icon: this label is longer than the
+                    // sidebar is wide, so it has to be allowed to wrap instead
+                    // of overflowing.
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (isWeek10Running) ...[
+                          const SizedBox(
+                            width: 13,
+                            height: 13,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Color(0xFFFBBF24),
+                            ),
+                          ),
+                        ] else ...[
+                          const Icon(
+                            Icons.hub_outlined,
+                            size: 16,
+                            color: Color(0xFFFBBF24),
+                          ),
+                        ],
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            'Run Agent vs Multi-Agent Benchmark',
+                            style: GoogleFonts.inter(
+                              color: isWeek10Running
+                                  ? const Color(0xFF64748B)
+                                  : const Color(0xFFCBD5E1),
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

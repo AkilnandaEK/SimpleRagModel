@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../models/benchmark_models.dart';
 import '../models/rag_models.dart';
 import '../models/trajectory_models.dart';
+import '../models/week10_race_models.dart';
 
 class ApiService {
   static String get baseUrl {
@@ -198,7 +199,53 @@ class ApiService {
     throw Exception(detail);
   }
 
-  /// POST /api/trajectory/run
+  /// POST /api/benchmark/week10/race
+  ///
+  /// Runs the Week 10 "Single Agent vs Multi-Agent Squad" race and returns the
+  /// live `RaceResult.to_dict()` payload.
+  ///
+  /// This is the execution path for the Week 10 benchmark button. It is
+  /// deliberately a different endpoint from [runBenchmark] (`/api/benchmark/run`),
+  /// which belongs to the separate Agent-vs-Workflow experiment and is left
+  /// untouched.
+  ///
+  /// The race is expensive — it warms up the embedding model and Chroma, then
+  /// runs every case through both arms (the Single Agent arm makes real LLM
+  /// calls). No timeout is applied so the request stays open until the backend
+  /// finishes, exactly like [runBenchmark].
+  ///
+  /// [caseIds] is optional; when omitted the backend runs the sanctioned Week 10
+  /// 10-case set.
+  static Future<Week10RaceResult> runWeek10Race({List<String>? caseIds}) async {
+    final bodyMap = <String, dynamic>{};
+    if (caseIds != null && caseIds.isNotEmpty) {
+      bodyMap['case_ids'] = caseIds;
+    }
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/benchmark/week10/race'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(bodyMap),
+    );
+
+    if (response.statusCode == 200) {
+      return Week10RaceResult.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
+    }
+
+    String detail = 'Week 10 race failed (${response.statusCode})';
+    try {
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map && decoded['detail'] != null) {
+        detail = decoded['detail'].toString();
+      }
+    } catch (_) {
+      // Non-JSON error body — keep the status-code message.
+    }
+    throw Exception(detail);
+  }
+
   ///
   /// Runs the Week 8 trajectory evaluation suite. This executes every query
   /// twice (baseline + mitigated) plus the injection suite, so it is slow —
