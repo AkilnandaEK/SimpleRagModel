@@ -1,0 +1,1183 @@
+{
+  "artifact": "MCP stdio wire capture",
+  "purpose": "Week 9 evidence: the actual JSON-RPC frames exchanged over stdio between an MCP client and each configured server.",
+  "generated_utc": "2026-09-28T09:38:12.022857+00:00",
+  "source_of_truth": {
+    "method": "A recording stdio proxy (a passive byte tap) was inserted between the official MCP Python client and each real server. The client connected to the proxy; the proxy spawned the real server command and forwarded every frame byte-for-byte in both directions, recording the exact bytes as they crossed.",
+    "guarantee": "Every 'raw' string below is the verbatim frame as transmitted. No frame was written, edited, normalized or reconstructed by hand.",
+    "frame_source": "recorded by the proxy while the official client (mcp Python SDK) drove a normal session",
+    "stderr_excluded": true,
+    "stderr_note": "Child stderr (startup banners, HF hub logs, library prints) was inherited by the proxy and deliberately NOT recorded as protocol messages. Only stdout JSON-RPC frames appear below.",
+    "secrets_note": "No environment variables are included beyond the non-secret DOC_SEARCH_* keys in mcp_config.json. No API keys or .env values were captured."
+  },
+  "field_annotations": {
+    "jsonrpc": {
+      "value_observed": "the 2.0 JSON-RPC specification version string, identical in every frame",
+      "meaning": "Protocol version of the message format itself. Always present on requests, responses and notifications."
+    },
+    "id": {
+      "value_observed": "integer 0, 1, 2 in this capture (chosen by the client, echoed by the server)",
+      "meaning": "Correlation identifier. Present on requests and responses; absent on notifications."
+    },
+    "method": {
+      "value_observed": "initialize, notifications/initialized, tools/list, tools/call",
+      "meaning": "The operation name. Present on requests and notifications, absent on responses."
+    },
+    "params": {
+      "value_observed": "request arguments, e.g. {\"name\": \"react\"}",
+      "meaning": "Arguments for the request's method. Present on requests, absent on responses."
+    },
+    "result": {
+      "value_observed": "the payload returned by the server on success",
+      "meaning": "Successful response payload. Present on a success response, replaced by 'error' on failure."
+    },
+    "error": {
+      "value_observed": "absent from every frame in this capture",
+      "meaning": "Failure payload, carrying a numeric code and message. Replaces 'result' on a failed request. No error frames were recorded: all three requests per server succeeded."
+    }
+  },
+  "message_type_annotations": {
+    "request": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+    "notification": "Client to server, no 'id'. Fire-and-forget; the server must not reply. Used to confirm that initialization finished.",
+    "response": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure)."
+  },
+  "servers": [
+    {
+      "server_name": "doc-search",
+      "transport": "stdio",
+      "configured_command": "E:\\week3\\.venv\\Scripts\\python.exe",
+      "configured_args": [
+        "E:\\week3\\mcp servers\\doc_search_server.py"
+      ],
+      "configured_env": {
+        "DOC_SEARCH_REPO_ROOT": "E:\\week3",
+        "DOC_SEARCH_COLLECTION": "sdk-v3-strategy-b",
+        "DOC_SEARCH_TOP_K": "5"
+      },
+      "negotiated": {
+        "protocol_version": "2025-11-25",
+        "server_info": {
+          "name": "doc-search",
+          "version": "1.30.0"
+        },
+        "capabilities": {
+          "experimental": {},
+          "prompts": {
+            "listChanged": false
+          },
+          "resources": {
+            "subscribe": false,
+            "listChanged": false
+          },
+          "tools": {
+            "listChanged": false
+          }
+        }
+      },
+      "tool_count_from_captured_tools_list": 4,
+      "captured_tool_names": [
+        "list_collections",
+        "list_documents",
+        "search_documents",
+        "get_chunk"
+      ],
+      "captured_tool_call": {
+        "tool": "list_collections",
+        "arguments": {},
+        "is_error_field": false,
+        "result_text_first_200_chars": "{\n  \"collections\": [\n    {\n      \"name\": \"recipe_rag_test_corpus\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"test-2\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"sdk-v3-strategy-b\",\n      \"count",
+        "result_text_length": 458
+      },
+      "frames": [
+        {
+          "seq": 1,
+          "t_ms": 6.1,
+          "direction": "client_to_server",
+          "byte_length": 153,
+          "valid_json": true,
+          "message_type": "request",
+          "annotation": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+          "method": "initialize",
+          "request_id": 0,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-11-25\",\"capabilities\":{},\"clientInfo\":{\"name\":\"mcp\",\"version\":\"0.1.0\"}},\"jsonrpc\":\"2.0\",\"id\":0}",
+          "parsed": {
+            "method": "initialize",
+            "params": {
+              "protocolVersion": "2025-11-25",
+              "capabilities": {},
+              "clientInfo": {
+                "name": "mcp",
+                "version": "0.1.0"
+              }
+            },
+            "jsonrpc": "2.0",
+            "id": 0
+          }
+        },
+        {
+          "seq": 2,
+          "t_ms": 32491.3,
+          "direction": "server_to_client",
+          "byte_length": 271,
+          "valid_json": true,
+          "message_type": "response",
+          "annotation": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure).",
+          "method": null,
+          "request_id": 0,
+          "has_result_field": true,
+          "has_error_field": false,
+          "raw": "{\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"protocolVersion\":\"2025-11-25\",\"capabilities\":{\"experimental\":{},\"prompts\":{\"listChanged\":false},\"resources\":{\"subscribe\":false,\"listChanged\":false},\"tools\":{\"listChanged\":false}},\"serverInfo\":{\"name\":\"doc-search\",\"version\":\"1.30.0\"}}}",
+          "parsed": {
+            "jsonrpc": "2.0",
+            "id": 0,
+            "result": {
+              "protocolVersion": "2025-11-25",
+              "capabilities": {
+                "experimental": {},
+                "prompts": {
+                  "listChanged": false
+                },
+                "resources": {
+                  "subscribe": false,
+                  "listChanged": false
+                },
+                "tools": {
+                  "listChanged": false
+                }
+              },
+              "serverInfo": {
+                "name": "doc-search",
+                "version": "1.30.0"
+              }
+            }
+          }
+        },
+        {
+          "seq": 3,
+          "t_ms": 32501.9,
+          "direction": "client_to_server",
+          "byte_length": 55,
+          "valid_json": true,
+          "message_type": "notification",
+          "annotation": "Client to server, no 'id'. Fire-and-forget; the server must not reply. Used to confirm that initialization finished.",
+          "method": "notifications/initialized",
+          "request_id": null,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"notifications/initialized\",\"jsonrpc\":\"2.0\"}",
+          "parsed": {
+            "method": "notifications/initialized",
+            "jsonrpc": "2.0"
+          }
+        },
+        {
+          "seq": 4,
+          "t_ms": 32505.6,
+          "direction": "client_to_server",
+          "byte_length": 47,
+          "valid_json": true,
+          "message_type": "request",
+          "annotation": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+          "method": "tools/list",
+          "request_id": 1,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"tools/list\",\"jsonrpc\":\"2.0\",\"id\":1}",
+          "parsed": {
+            "method": "tools/list",
+            "jsonrpc": "2.0",
+            "id": 1
+          }
+        },
+        {
+          "seq": 5,
+          "t_ms": 32518.3,
+          "direction": "server_to_client",
+          "byte_length": 2563,
+          "valid_json": true,
+          "message_type": "response",
+          "annotation": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure).",
+          "method": null,
+          "request_id": 1,
+          "has_result_field": true,
+          "has_error_field": false,
+          "raw": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"tools\":[{\"name\":\"list_collections\",\"description\":\"List every ChromaDB collection available to search, with chunk counts.\",\"inputSchema\":{\"properties\":{},\"title\":\"list_collectionsArguments\",\"type\":\"object\"},\"outputSchema\":{\"additionalProperties\":true,\"title\":\"list_collectionsDictOutput\",\"type\":\"object\"}},{\"name\":\"list_documents\",\"description\":\"List the source documents indexed in a collection, with per-file chunk counts.\",\"inputSchema\":{\"properties\":{\"collection_name\":{\"default\":\"sdk-v3-strategy-b\",\"title\":\"Collection Name\",\"type\":\"string\"}},\"title\":\"list_documentsArguments\",\"type\":\"object\"},\"outputSchema\":{\"additionalProperties\":true,\"title\":\"list_documentsDictOutput\",\"type\":\"object\"}},{\"name\":\"search_documents\",\"description\":\"Search the reference corpus for chunks matching the query.\\n\\nUses the project's hybrid retrieval (vector + keyword) over ChromaDB.\\n\\nArgs:\\n    query: natural-language question or keywords to search for.\\n    top_k: maximum number of results to return (1-20).\\n    version: optional metadata filter, e.g. 'v3'.\\n    target_files: optional list of source filenames to restrict the search to.\\n    collection_name: ChromaDB collection to search.\\n\",\"inputSchema\":{\"properties\":{\"query\":{\"title\":\"Query\",\"type\":\"string\"},\"top_k\":{\"default\":5,\"title\":\"Top K\",\"type\":\"integer\"},\"version\":{\"anyOf\":[{\"type\":\"string\"},{\"type\":\"null\"}],\"default\":null,\"title\":\"Version\"},\"target_files\":{\"anyOf\":[{\"items\":{\"type\":\"string\"},\"type\":\"array\"},{\"type\":\"null\"}],\"default\":null,\"title\":\"Target Files\"},\"collection_name\":{\"default\":\"sdk-v3-strategy-b\",\"title\":\"Collection Name\",\"type\":\"string\"}},\"required\":[\"query\"],\"title\":\"search_documentsArguments\",\"type\":\"object\"},\"outputSchema\":{\"additionalProperties\":true,\"title\":\"search_documentsDictOutput\",\"type\":\"object\"}},{\"name\":\"get_chunk\",\"description\":\"Retrieve one chunk verbatim by its ID, optionally with surrounding context.\\n\\nArgs:\\n    chunk_id: the chunk ID returned by ``search_documents``.\\n    include_context: also return up to 5 neighbouring chunks from the same file.\\n    collection_name: ChromaDB collection to read from.\\n\",\"inputSchema\":{\"properties\":{\"chunk_id\":{\"title\":\"Chunk Id\",\"type\":\"string\"},\"include_context\":{\"default\":true,\"title\":\"Include Context\",\"type\":\"boolean\"},\"collection_name\":{\"default\":\"sdk-v3-strategy-b\",\"title\":\"Collection Name\",\"type\":\"string\"}},\"required\":[\"chunk_id\"],\"title\":\"get_chunkArguments\",\"type\":\"object\"},\"outputSchema\":{\"additionalProperties\":true,\"title\":\"get_chunkDictOutput\",\"type\":\"object\"}}]}}",
+          "parsed": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": {
+              "tools": [
+                {
+                  "name": "list_collections",
+                  "description": "List every ChromaDB collection available to search, with chunk counts.",
+                  "inputSchema": {
+                    "properties": {},
+                    "title": "list_collectionsArguments",
+                    "type": "object"
+                  },
+                  "outputSchema": {
+                    "additionalProperties": true,
+                    "title": "list_collectionsDictOutput",
+                    "type": "object"
+                  }
+                },
+                {
+                  "name": "list_documents",
+                  "description": "List the source documents indexed in a collection, with per-file chunk counts.",
+                  "inputSchema": {
+                    "properties": {
+                      "collection_name": {
+                        "default": "sdk-v3-strategy-b",
+                        "title": "Collection Name",
+                        "type": "string"
+                      }
+                    },
+                    "title": "list_documentsArguments",
+                    "type": "object"
+                  },
+                  "outputSchema": {
+                    "additionalProperties": true,
+                    "title": "list_documentsDictOutput",
+                    "type": "object"
+                  }
+                },
+                {
+                  "name": "search_documents",
+                  "description": "Search the reference corpus for chunks matching the query.\n\nUses the project's hybrid retrieval (vector + keyword) over ChromaDB.\n\nArgs:\n    query: natural-language question or keywords to search for.\n    top_k: maximum number of results to return (1-20).\n    version: optional metadata filter, e.g. 'v3'.\n    target_files: optional list of source filenames to restrict the search to.\n    collection_name: ChromaDB collection to search.\n",
+                  "inputSchema": {
+                    "properties": {
+                      "query": {
+                        "title": "Query",
+                        "type": "string"
+                      },
+                      "top_k": {
+                        "default": 5,
+                        "title": "Top K",
+                        "type": "integer"
+                      },
+                      "version": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "title": "Version"
+                      },
+                      "target_files": {
+                        "anyOf": [
+                          {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "title": "Target Files"
+                      },
+                      "collection_name": {
+                        "default": "sdk-v3-strategy-b",
+                        "title": "Collection Name",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "query"
+                    ],
+                    "title": "search_documentsArguments",
+                    "type": "object"
+                  },
+                  "outputSchema": {
+                    "additionalProperties": true,
+                    "title": "search_documentsDictOutput",
+                    "type": "object"
+                  }
+                },
+                {
+                  "name": "get_chunk",
+                  "description": "Retrieve one chunk verbatim by its ID, optionally with surrounding context.\n\nArgs:\n    chunk_id: the chunk ID returned by ``search_documents``.\n    include_context: also return up to 5 neighbouring chunks from the same file.\n    collection_name: ChromaDB collection to read from.\n",
+                  "inputSchema": {
+                    "properties": {
+                      "chunk_id": {
+                        "title": "Chunk Id",
+                        "type": "string"
+                      },
+                      "include_context": {
+                        "default": true,
+                        "title": "Include Context",
+                        "type": "boolean"
+                      },
+                      "collection_name": {
+                        "default": "sdk-v3-strategy-b",
+                        "title": "Collection Name",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "chunk_id"
+                    ],
+                    "title": "get_chunkArguments",
+                    "type": "object"
+                  },
+                  "outputSchema": {
+                    "additionalProperties": true,
+                    "title": "get_chunkDictOutput",
+                    "type": "object"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "seq": 6,
+          "t_ms": 32523.5,
+          "direction": "client_to_server",
+          "byte_length": 99,
+          "valid_json": true,
+          "message_type": "request",
+          "annotation": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+          "method": "tools/call",
+          "request_id": 2,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"tools/call\",\"params\":{\"name\":\"list_collections\",\"arguments\":{}},\"jsonrpc\":\"2.0\",\"id\":2}",
+          "parsed": {
+            "method": "tools/call",
+            "params": {
+              "name": "list_collections",
+              "arguments": {}
+            },
+            "jsonrpc": "2.0",
+            "id": 2
+          }
+        },
+        {
+          "seq": 7,
+          "t_ms": 32809.2,
+          "direction": "server_to_client",
+          "byte_length": 930,
+          "valid_json": true,
+          "message_type": "response",
+          "annotation": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure).",
+          "method": null,
+          "request_id": 2,
+          "has_result_field": true,
+          "has_error_field": false,
+          "raw": "{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"{\\n  \\\"collections\\\": [\\n    {\\n      \\\"name\\\": \\\"recipe_rag_test_corpus\\\",\\n      \\\"count\\\": 33\\n    },\\n    {\\n      \\\"name\\\": \\\"test-2\\\",\\n      \\\"count\\\": 33\\n    },\\n    {\\n      \\\"name\\\": \\\"sdk-v3-strategy-b\\\",\\n      \\\"count\\\": 66\\n    },\\n    {\\n      \\\"name\\\": \\\"sdk-v3-strategy-a\\\",\\n      \\\"count\\\": 14\\n    },\\n    {\\n      \\\"name\\\": \\\"recipe-rag-test-corpus\\\",\\n      \\\"count\\\": 33\\n    },\\n    {\\n      \\\"name\\\": \\\"trace-test\\\",\\n      \\\"count\\\": 34\\n    }\\n  ],\\n  \\\"default_collection\\\": \\\"sdk-v3-strategy-b\\\"\\n}\"}],\"structuredContent\":{\"collections\":[{\"name\":\"recipe_rag_test_corpus\",\"count\":33},{\"name\":\"test-2\",\"count\":33},{\"name\":\"sdk-v3-strategy-b\",\"count\":66},{\"name\":\"sdk-v3-strategy-a\",\"count\":14},{\"name\":\"recipe-rag-test-corpus\",\"count\":33},{\"name\":\"trace-test\",\"count\":34}],\"default_collection\":\"sdk-v3-strategy-b\"},\"isError\":false}}",
+          "parsed": {
+            "jsonrpc": "2.0",
+            "id": 2,
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "{\n  \"collections\": [\n    {\n      \"name\": \"recipe_rag_test_corpus\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"test-2\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"sdk-v3-strategy-b\",\n      \"count\": 66\n    },\n    {\n      \"name\": \"sdk-v3-strategy-a\",\n      \"count\": 14\n    },\n    {\n      \"name\": \"recipe-rag-test-corpus\",\n      \"count\": 33\n    },\n    {\n      \"name\": \"trace-test\",\n      \"count\": 34\n    }\n  ],\n  \"default_collection\": \"sdk-v3-strategy-b\"\n}"
+                }
+              ],
+              "structuredContent": {
+                "collections": [
+                  {
+                    "name": "recipe_rag_test_corpus",
+                    "count": 33
+                  },
+                  {
+                    "name": "test-2",
+                    "count": 33
+                  },
+                  {
+                    "name": "sdk-v3-strategy-b",
+                    "count": 66
+                  },
+                  {
+                    "name": "sdk-v3-strategy-a",
+                    "count": 14
+                  },
+                  {
+                    "name": "recipe-rag-test-corpus",
+                    "count": 33
+                  },
+                  {
+                    "name": "trace-test",
+                    "count": 34
+                  }
+                ],
+                "default_collection": "sdk-v3-strategy-b"
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "server_name": "package-registry",
+      "transport": "stdio",
+      "configured_command": "npx",
+      "configured_args": [
+        "-y",
+        "package-registry-mcp"
+      ],
+      "configured_env": null,
+      "negotiated": {
+        "protocol_version": "2025-06-18",
+        "server_info": {
+          "name": "package-registry",
+          "version": "1.0.0"
+        },
+        "capabilities": {
+          "tools": {
+            "listChanged": true
+          }
+        }
+      },
+      "tool_count_from_captured_tools_list": 16,
+      "captured_tool_names": [
+        "get-cargo-package-details",
+        "search-cargo-packages",
+        "list-cargo-package-versions",
+        "get-github-advisory",
+        "search-github-advisories",
+        "get-package-advisories",
+        "get-golang-package-details",
+        "list-golang-package-versions",
+        "get-npm-package-details",
+        "search-npm-packages",
+        "list-npm-package-versions",
+        "get-nuget-package-details",
+        "search-nuget-packages",
+        "list-nuget-package-versions",
+        "get-pypi-package-details",
+        "list-pypi-package-versions"
+      ],
+      "captured_tool_call": {
+        "tool": "get-npm-package-details",
+        "arguments": {
+          "name": "react"
+        },
+        "is_error_field": null,
+        "result_text_first_200_chars": "{\n  \"package\": {\n    \"name\": \"react\",\n    \"description\": \"React is a JavaScript library for building user interfaces.\",\n    \"latestVersion\": \"19.3.0\",\n    \"license\": \"MIT\",\n    \"homepage\": \"https://re",
+        "result_text_length": 2831
+      },
+      "frames": [
+        {
+          "seq": 1,
+          "t_ms": 8.2,
+          "direction": "client_to_server",
+          "byte_length": 153,
+          "valid_json": true,
+          "message_type": "request",
+          "annotation": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+          "method": "initialize",
+          "request_id": 0,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-11-25\",\"capabilities\":{},\"clientInfo\":{\"name\":\"mcp\",\"version\":\"0.1.0\"}},\"jsonrpc\":\"2.0\",\"id\":0}",
+          "parsed": {
+            "method": "initialize",
+            "params": {
+              "protocolVersion": "2025-11-25",
+              "capabilities": {},
+              "clientInfo": {
+                "name": "mcp",
+                "version": "0.1.0"
+              }
+            },
+            "jsonrpc": "2.0",
+            "id": 0
+          }
+        },
+        {
+          "seq": 2,
+          "t_ms": 1531.9,
+          "direction": "server_to_client",
+          "byte_length": 172,
+          "valid_json": true,
+          "message_type": "response",
+          "annotation": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure).",
+          "method": null,
+          "request_id": 0,
+          "has_result_field": true,
+          "has_error_field": false,
+          "raw": "{\"result\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{\"tools\":{\"listChanged\":true}},\"serverInfo\":{\"name\":\"package-registry\",\"version\":\"1.0.0\"}},\"jsonrpc\":\"2.0\",\"id\":0}",
+          "parsed": {
+            "result": {
+              "protocolVersion": "2025-06-18",
+              "capabilities": {
+                "tools": {
+                  "listChanged": true
+                }
+              },
+              "serverInfo": {
+                "name": "package-registry",
+                "version": "1.0.0"
+              }
+            },
+            "jsonrpc": "2.0",
+            "id": 0
+          }
+        },
+        {
+          "seq": 3,
+          "t_ms": 1535.3,
+          "direction": "client_to_server",
+          "byte_length": 55,
+          "valid_json": true,
+          "message_type": "notification",
+          "annotation": "Client to server, no 'id'. Fire-and-forget; the server must not reply. Used to confirm that initialization finished.",
+          "method": "notifications/initialized",
+          "request_id": null,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"notifications/initialized\",\"jsonrpc\":\"2.0\"}",
+          "parsed": {
+            "method": "notifications/initialized",
+            "jsonrpc": "2.0"
+          }
+        },
+        {
+          "seq": 4,
+          "t_ms": 1536.4,
+          "direction": "client_to_server",
+          "byte_length": 47,
+          "valid_json": true,
+          "message_type": "request",
+          "annotation": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+          "method": "tools/list",
+          "request_id": 1,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"tools/list\",\"jsonrpc\":\"2.0\",\"id\":1}",
+          "parsed": {
+            "method": "tools/list",
+            "jsonrpc": "2.0",
+            "id": 1
+          }
+        },
+        {
+          "seq": 5,
+          "t_ms": 1543.8,
+          "direction": "server_to_client",
+          "byte_length": 6771,
+          "valid_json": true,
+          "message_type": "response",
+          "annotation": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure).",
+          "method": null,
+          "request_id": 1,
+          "has_result_field": true,
+          "has_error_field": false,
+          "raw": "{\"result\":{\"tools\":[{\"name\":\"get-cargo-package-details\",\"description\":\"Get detailed information about a specific Cargo package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"search-cargo-packages\",\"description\":\"Search the Cargo registry for packages\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":100,\"default\":10},\"query\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"query\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"list-cargo-package-versions\",\"description\":\"List all versions of a specific Cargo package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":1000,\"default\":100}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"get-github-advisory\",\"description\":\"Get detailed information about a specific GitHub Security Advisory by its GHSA ID (e.g., GHSA-grv7-fg5c-xmjg).\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"ghsaId\":{\"type\":\"string\",\"minLength\":1,\"pattern\":\"^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$\",\"description\":\"The GitHub Security Advisory ID (e.g., GHSA-grv7-fg5c-xmjg)\"}},\"required\":[\"ghsaId\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"search-github-advisories\",\"description\":\"Search the GitHub Security Advisory Database for vulnerabilities. Filter by ecosystem (npm, pip, maven, etc.), severity, type, or CVE ID.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"cveId\":{\"type\":\"string\",\"description\":\"Filter by CVE identifier\"},\"ecosystem\":{\"type\":\"string\",\"enum\":[\"actions\",\"composer\",\"erlang\",\"go\",\"maven\",\"npm\",\"nuget\",\"other\",\"pip\",\"pub\",\"rubygems\",\"rust\",\"swift\"],\"description\":\"Filter by package ecosystem (npm, pip, maven, etc.)\"},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":100,\"default\":30,\"description\":\"Maximum number of results to return\"},\"severity\":{\"type\":\"string\",\"enum\":[\"unknown\",\"low\",\"medium\",\"high\",\"critical\"],\"description\":\"Filter by severity level (low, medium, high, critical)\"},\"type\":{\"type\":\"string\",\"enum\":[\"reviewed\",\"malware\",\"unreviewed\"],\"description\":\"Filter by advisory type (reviewed, malware, unreviewed)\"}},\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"get-package-advisories\",\"description\":\"Get all security advisories affecting a specific package. Use this to check if a package like \\\"braces\\\" or \\\"lodash\\\" has known vulnerabilities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"ecosystem\":{\"type\":\"string\",\"enum\":[\"actions\",\"composer\",\"erlang\",\"go\",\"maven\",\"npm\",\"nuget\",\"other\",\"pip\",\"pub\",\"rubygems\",\"rust\",\"swift\"],\"description\":\"The package ecosystem (npm, pip, maven, go, rust, etc.)\"},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":100,\"default\":30,\"description\":\"Maximum number of results to return\"},\"packageName\":{\"type\":\"string\",\"minLength\":1,\"description\":\"The package name (e.g., braces, lodash, requests)\"},\"severity\":{\"type\":\"string\",\"enum\":[\"unknown\",\"low\",\"medium\",\"high\",\"critical\"],\"description\":\"Filter by severity level (low, medium, high, critical)\"}},\"required\":[\"ecosystem\",\"packageName\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"get-golang-package-details\",\"description\":\"Get detailed information about a specific Go module/package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"module\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"module\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"list-golang-package-versions\",\"description\":\"List all versions of a specific Go module/package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"module\":{\"type\":\"string\",\"minLength\":1},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":1000,\"default\":100}},\"required\":[\"module\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"get-npm-package-details\",\"description\":\"Get detailed information about a specific NPM package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"search-npm-packages\",\"description\":\"Search the NPM registry for packages\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":100,\"default\":10},\"query\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"query\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"list-npm-package-versions\",\"description\":\"List all versions of a specific NPM package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":1000,\"default\":100}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"get-nuget-package-details\",\"description\":\"Get detailed information about a specific NuGet package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"search-nuget-packages\",\"description\":\"Search the NuGet registry for packages\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":100,\"default\":10},\"query\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"query\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"list-nuget-package-versions\",\"description\":\"List all versions of a specific NuGet package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":1000,\"default\":100}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"get-pypi-package-details\",\"description\":\"Get detailed information about a specific PyPI package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}},{\"name\":\"list-pypi-package-versions\",\"description\":\"List all versions of a specific PyPI package\",\"inputSchema\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\",\"minLength\":1},\"limit\":{\"type\":\"number\",\"minimum\":1,\"maximum\":1000,\"default\":100}},\"required\":[\"name\"],\"additionalProperties\":false,\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}]},\"jsonrpc\":\"2.0\",\"id\":1}",
+          "parsed": {
+            "result": {
+              "tools": [
+                {
+                  "name": "get-cargo-package-details",
+                  "description": "Get detailed information about a specific Cargo package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "search-cargo-packages",
+                  "description": "Search the Cargo registry for packages",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10
+                      },
+                      "query": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "query"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "list-cargo-package-versions",
+                  "description": "List all versions of a specific Cargo package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 100
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "get-github-advisory",
+                  "description": "Get detailed information about a specific GitHub Security Advisory by its GHSA ID (e.g., GHSA-grv7-fg5c-xmjg).",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "ghsaId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$",
+                        "description": "The GitHub Security Advisory ID (e.g., GHSA-grv7-fg5c-xmjg)"
+                      }
+                    },
+                    "required": [
+                      "ghsaId"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "search-github-advisories",
+                  "description": "Search the GitHub Security Advisory Database for vulnerabilities. Filter by ecosystem (npm, pip, maven, etc.), severity, type, or CVE ID.",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "cveId": {
+                        "type": "string",
+                        "description": "Filter by CVE identifier"
+                      },
+                      "ecosystem": {
+                        "type": "string",
+                        "enum": [
+                          "actions",
+                          "composer",
+                          "erlang",
+                          "go",
+                          "maven",
+                          "npm",
+                          "nuget",
+                          "other",
+                          "pip",
+                          "pub",
+                          "rubygems",
+                          "rust",
+                          "swift"
+                        ],
+                        "description": "Filter by package ecosystem (npm, pip, maven, etc.)"
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 30,
+                        "description": "Maximum number of results to return"
+                      },
+                      "severity": {
+                        "type": "string",
+                        "enum": [
+                          "unknown",
+                          "low",
+                          "medium",
+                          "high",
+                          "critical"
+                        ],
+                        "description": "Filter by severity level (low, medium, high, critical)"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "reviewed",
+                          "malware",
+                          "unreviewed"
+                        ],
+                        "description": "Filter by advisory type (reviewed, malware, unreviewed)"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "get-package-advisories",
+                  "description": "Get all security advisories affecting a specific package. Use this to check if a package like \"braces\" or \"lodash\" has known vulnerabilities.",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "ecosystem": {
+                        "type": "string",
+                        "enum": [
+                          "actions",
+                          "composer",
+                          "erlang",
+                          "go",
+                          "maven",
+                          "npm",
+                          "nuget",
+                          "other",
+                          "pip",
+                          "pub",
+                          "rubygems",
+                          "rust",
+                          "swift"
+                        ],
+                        "description": "The package ecosystem (npm, pip, maven, go, rust, etc.)"
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 30,
+                        "description": "Maximum number of results to return"
+                      },
+                      "packageName": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The package name (e.g., braces, lodash, requests)"
+                      },
+                      "severity": {
+                        "type": "string",
+                        "enum": [
+                          "unknown",
+                          "low",
+                          "medium",
+                          "high",
+                          "critical"
+                        ],
+                        "description": "Filter by severity level (low, medium, high, critical)"
+                      }
+                    },
+                    "required": [
+                      "ecosystem",
+                      "packageName"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "get-golang-package-details",
+                  "description": "Get detailed information about a specific Go module/package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "module": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "module"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "list-golang-package-versions",
+                  "description": "List all versions of a specific Go module/package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "module": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 100
+                      }
+                    },
+                    "required": [
+                      "module"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "get-npm-package-details",
+                  "description": "Get detailed information about a specific NPM package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "search-npm-packages",
+                  "description": "Search the NPM registry for packages",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10
+                      },
+                      "query": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "query"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "list-npm-package-versions",
+                  "description": "List all versions of a specific NPM package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 100
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "get-nuget-package-details",
+                  "description": "Get detailed information about a specific NuGet package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "search-nuget-packages",
+                  "description": "Search the NuGet registry for packages",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 10
+                      },
+                      "query": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "query"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "list-nuget-package-versions",
+                  "description": "List all versions of a specific NuGet package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 100
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "get-pypi-package-details",
+                  "description": "Get detailed information about a specific PyPI package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                },
+                {
+                  "name": "list-pypi-package-versions",
+                  "description": "List all versions of a specific PyPI package",
+                  "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "limit": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 100
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "additionalProperties": false,
+                    "$schema": "http://json-schema.org/draft-07/schema#"
+                  }
+                }
+              ]
+            },
+            "jsonrpc": "2.0",
+            "id": 1
+          }
+        },
+        {
+          "seq": 6,
+          "t_ms": 1548.5,
+          "direction": "client_to_server",
+          "byte_length": 120,
+          "valid_json": true,
+          "message_type": "request",
+          "annotation": "Client to server. Carries 'method' and 'id'; expects exactly one matching response with the same 'id'.",
+          "method": "tools/call",
+          "request_id": 2,
+          "has_result_field": false,
+          "has_error_field": false,
+          "raw": "{\"method\":\"tools/call\",\"params\":{\"name\":\"get-npm-package-details\",\"arguments\":{\"name\":\"react\"}},\"jsonrpc\":\"2.0\",\"id\":2}",
+          "parsed": {
+            "method": "tools/call",
+            "params": {
+              "name": "get-npm-package-details",
+              "arguments": {
+                "name": "react"
+              }
+            },
+            "jsonrpc": "2.0",
+            "id": 2
+          }
+        },
+        {
+          "seq": 7,
+          "t_ms": 1954.6,
+          "direction": "server_to_client",
+          "byte_length": 3169,
+          "valid_json": true,
+          "message_type": "response",
+          "annotation": "Server to client. Carries the 'id' of the request it answers plus 'result' (success) or 'error' (failure).",
+          "method": null,
+          "request_id": 2,
+          "has_result_field": true,
+          "has_error_field": false,
+          "raw": "{\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"{\\n  \\\"package\\\": {\\n    \\\"name\\\": \\\"react\\\",\\n    \\\"description\\\": \\\"React is a JavaScript library for building user interfaces.\\\",\\n    \\\"latestVersion\\\": \\\"19.3.0\\\",\\n    \\\"license\\\": \\\"MIT\\\",\\n    \\\"homepage\\\": \\\"https://react.dev/\\\",\\n    \\\"repository\\\": {\\n      \\\"url\\\": \\\"git+https://github.com/react/react.git\\\",\\n      \\\"type\\\": \\\"git\\\",\\n      \\\"directory\\\": \\\"packages/react\\\"\\n    },\\n    \\\"maintainers\\\": [\\n      {\\n        \\\"name\\\": \\\"fb\\\",\\n        \\\"email\\\": \\\"opensource+npm@fb.com\\\"\\n      },\\n      {\\n        \\\"name\\\": \\\"react-bot\\\",\\n        \\\"email\\\": \\\"react-core@meta.com\\\"\\n      }\\n    ],\\n    \\\"keywords\\\": [\\n      \\\"react\\\"\\n    ],\\n    \\\"engines\\\": {\\n      \\\"node\\\": \\\">=0.10.0\\\"\\n    },\\n    \\\"main\\\": \\\"index.js\\\",\\n    \\\"bugs\\\": {\\n      \\\"url\\\": \\\"https://github.com/react/react/issues\\\"\\n    },\\n    \\\"versions\\\": [\\n      \\\"19.3.0-canary-a757cb76-20251002\\\",\\n      \\\"19.3.0-canary-85c427d8-20251003\\\",\\n      \\\"19.3.0-canary-4fdf7cf2-20251003\\\",\\n      \\\"19.3.0-canary-c7862584-20251006\\\",\\n      \\\"19.3.0-canary-a4eb2dfa-20251006\\\",\\n      \\\"19.3.0-canary-3025aa39-20251007\\\",\\n      \\\"19.3.0-canary-9724e3e6-20251008\\\",\\n      \\\"19.3.0-canary-4b3e662e-20251008\\\",\\n      \\\"19.3.0-canary-06fcc8f3-20251009\\\",\\n      \\\"19.3.0-canary-ead92181-20251010\\\",\\n      \\\"19.3.0-canary-d7215b49-20251013\\\",\\n      \\\"19.3.0-canary-56e84692-20251014\\\",\\n      \\\"19.3.0-canary-5f2b5718-20251014\\\",\\n      \\\"19.3.0-canary-1873ad79-20251015\\\",\\n      \\\"19.3.0-canary-93f85932-20251016\\\",\\n      \\\"19.3.0-canary-1324e1bb-20251016\\\",\\n      \\\"19.3.0-canary-58bdc0bb-20251019\\\",\\n      \\\"19.3.0-canary-f6a48828-20251019\\\",\\n      \\\"19.3.0-canary-2bcbf254-20251020\\\",\\n      \\\"19.3.0-canary-71b3a03c-20251021\\\",\\n      \\\"19.3.0-canary-6160773f-20251023\\\",\\n      \\\"19.3.0-canary-408b38ef-20251023\\\",\\n      \\\"19.3.0-canary-b4455a6e-20251027\\\",\\n      \\\"19.3.0-canary-4f931700-20251029\\\",\\n      \\\"19.3.0-canary-3a0ab8a7-20251029\\\",\\n      \\\"19.3.0-canary-c9ddee7e-20251031\\\",\\n      \\\"19.3.0-canary-561ee24d-20251101\\\",\\n      \\\"19.3.0-canary-67f7d47a-20251103\\\",\\n      \\\"19.3.0-canary-f646e8ff-20251104\\\",\\n      \\\"19.3.0-canary-dd048c3b-20251105\\\",\\n      \\\"19.3.0-canary-5a2205ba-20251105\\\",\\n      \\\"19.3.0-canary-fa50caf5-20251107\\\",\\n      \\\"19.3.0-canary-52684925-20251110\\\",\\n      \\\"19.3.0-canary-100fc4a8-20251110\\\",\\n      \\\"19.3.0-canary-1ea46df8-20251111\\\",\\n      \\\"19.3.0-canary-093b3246-20251113\\\",\\n      \\\"19.3.0-canary-93fc5740-20251113\\\",\\n      \\\"19.3.0-canary-257b033f-20251113\\\",\\n      \\\"19.3.0-canary-fb2177c1-20251114\\\",\\n      \\\"19.3.0-canary-0972e239-20251118\\\",\\n      \\\"19.3.0-canary-eb89912e-20251118\\\",\\n      \\\"19.3.0-canary-8ac5f4eb-20251119\\\",\\n      \\\"19.3.0-canary-40b4a5bf-20251120\\\",\\n      \\\"19.3.0-canary-fd524fe0-20251121\\\",\\n      \\\"19.3.0-canary-09f05694-20251201\\\",\\n      \\\"19.3.0-canary-7dc903cd-20251203\\\",\\n      \\\"19.3.0-canary-66ae640b-20251204\\\",\\n      \\\"19.3.0-canary-378973b3-20251205\\\",\\n      \\\"19.3.0-canary-ec9cc003-20251208\\\",\\n      \\\"19.3.0-canary-55480b4d-20251208\\\"\\n    ],\\n    \\\"totalVersions\\\": 50\\n  }\\n}\"}]},\"jsonrpc\":\"2.0\",\"id\":2}",
+          "parsed": {
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "{\n  \"package\": {\n    \"name\": \"react\",\n    \"description\": \"React is a JavaScript library for building user interfaces.\",\n    \"latestVersion\": \"19.3.0\",\n    \"license\": \"MIT\",\n    \"homepage\": \"https://react.dev/\",\n    \"repository\": {\n      \"url\": \"git+https://github.com/react/react.git\",\n      \"type\": \"git\",\n      \"directory\": \"packages/react\"\n    },\n    \"maintainers\": [\n      {\n        \"name\": \"fb\",\n        \"email\": \"opensource+npm@fb.com\"\n      },\n      {\n        \"name\": \"react-bot\",\n        \"email\": \"react-core@meta.com\"\n      }\n    ],\n    \"keywords\": [\n      \"react\"\n    ],\n    \"engines\": {\n      \"node\": \">=0.10.0\"\n    },\n    \"main\": \"index.js\",\n    \"bugs\": {\n      \"url\": \"https://github.com/react/react/issues\"\n    },\n    \"versions\": [\n      \"19.3.0-canary-a757cb76-20251002\",\n      \"19.3.0-canary-85c427d8-20251003\",\n      \"19.3.0-canary-4fdf7cf2-20251003\",\n      \"19.3.0-canary-c7862584-20251006\",\n      \"19.3.0-canary-a4eb2dfa-20251006\",\n      \"19.3.0-canary-3025aa39-20251007\",\n      \"19.3.0-canary-9724e3e6-20251008\",\n      \"19.3.0-canary-4b3e662e-20251008\",\n      \"19.3.0-canary-06fcc8f3-20251009\",\n      \"19.3.0-canary-ead92181-20251010\",\n      \"19.3.0-canary-d7215b49-20251013\",\n      \"19.3.0-canary-56e84692-20251014\",\n      \"19.3.0-canary-5f2b5718-20251014\",\n      \"19.3.0-canary-1873ad79-20251015\",\n      \"19.3.0-canary-93f85932-20251016\",\n      \"19.3.0-canary-1324e1bb-20251016\",\n      \"19.3.0-canary-58bdc0bb-20251019\",\n      \"19.3.0-canary-f6a48828-20251019\",\n      \"19.3.0-canary-2bcbf254-20251020\",\n      \"19.3.0-canary-71b3a03c-20251021\",\n      \"19.3.0-canary-6160773f-20251023\",\n      \"19.3.0-canary-408b38ef-20251023\",\n      \"19.3.0-canary-b4455a6e-20251027\",\n      \"19.3.0-canary-4f931700-20251029\",\n      \"19.3.0-canary-3a0ab8a7-20251029\",\n      \"19.3.0-canary-c9ddee7e-20251031\",\n      \"19.3.0-canary-561ee24d-20251101\",\n      \"19.3.0-canary-67f7d47a-20251103\",\n      \"19.3.0-canary-f646e8ff-20251104\",\n      \"19.3.0-canary-dd048c3b-20251105\",\n      \"19.3.0-canary-5a2205ba-20251105\",\n      \"19.3.0-canary-fa50caf5-20251107\",\n      \"19.3.0-canary-52684925-20251110\",\n      \"19.3.0-canary-100fc4a8-20251110\",\n      \"19.3.0-canary-1ea46df8-20251111\",\n      \"19.3.0-canary-093b3246-20251113\",\n      \"19.3.0-canary-93fc5740-20251113\",\n      \"19.3.0-canary-257b033f-20251113\",\n      \"19.3.0-canary-fb2177c1-20251114\",\n      \"19.3.0-canary-0972e239-20251118\",\n      \"19.3.0-canary-eb89912e-20251118\",\n      \"19.3.0-canary-8ac5f4eb-20251119\",\n      \"19.3.0-canary-40b4a5bf-20251120\",\n      \"19.3.0-canary-fd524fe0-20251121\",\n      \"19.3.0-canary-09f05694-20251201\",\n      \"19.3.0-canary-7dc903cd-20251203\",\n      \"19.3.0-canary-66ae640b-20251204\",\n      \"19.3.0-canary-378973b3-20251205\",\n      \"19.3.0-canary-ec9cc003-20251208\",\n      \"19.3.0-canary-55480b4d-20251208\"\n    ],\n    \"totalVersions\": 50\n  }\n}"
+                }
+              ]
+            },
+            "jsonrpc": "2.0",
+            "id": 2
+          }
+        }
+      ]
+    }
+  ],
+  "tool_counts": {
+    "before": {
+      "configuration": "doc-search only",
+      "servers": [
+        "doc-search"
+      ],
+      "tool_count": 4,
+      "derivation": "len(tools/list response captured from doc-search) = 4",
+      "tools": [
+        "list_collections",
+        "list_documents",
+        "search_documents",
+        "get_chunk"
+      ]
+    },
+    "after": {
+      "configuration": "doc-search plus package-registry",
+      "servers": [
+        "doc-search",
+        "package-registry"
+      ],
+      "per_server": {
+        "doc-search": 4,
+        "package-registry": 16
+      },
+      "sum_of_all_servers": 20,
+      "derivation": "4 + 16 = 20"
+    },
+    "critical_distinction": {
+      "sum_is_not_a_combined_list": true,
+      "explanation": "The figure 20 is the ARITHMETIC SUM of two independent stdio servers. It is not a tool list that any single session in this evidence exposed. Each server runs as its own OS process with its own stdin/stdout pair, and MCP has no cross-server aggregation. In this capture the doc-search session exposed exactly 4 tools and the package-registry session exposed exactly 16 tools; no session saw all 20. A host application that loads both servers from mcp_config.json would present all 20 tools to its model in one session, but that combined view was NOT captured or verified here."
+    }
+  },
+  "llm_location": {
+    "principle": "MCP is the tool-communication protocol, not the model. MCP standardises how a host discovers and invokes tools (JSON-RPC over stdio/HTTP). It says nothing about which model reasons, and an MCP server can be, and here is, a plain deterministic process with no model in it at all.",
+    "where_the_llm_actually_runs": {
+      "single_wrapper_module": "app/services/llm_provider.py",
+      "call_sites": [
+        {
+          "file": "app/services/llm_provider.py",
+          "line": 73,
+          "function": "_gemini_generate",
+          "sdk_call": "model.generate_content(prompt)",
+          "model_setting": "settings.gemini_model (default gemini-2.0-flash, app/core/config.py:27)"
+        },
+        {
+          "file": "app/services/llm_provider.py",
+          "line": 126,
+          "function": "_groq_generate",
+          "sdk_call": "client.chat.completions.create(**create_args)",
+          "model_setting": "settings.groq_model (default llama-3.3-70b-versatile, app/core/config.py:31)"
+        }
+      ],
+      "public_wrappers": [
+        "app/services/llm_provider.py:33 generate_answer",
+        "app/services/llm_provider.py:44 generate_answer_with_usage"
+      ],
+      "callers": [
+        {
+          "file": "agent/agent_loop.py",
+          "line": 366,
+          "note": "live branch of the ReAct loop; the LLM chooses the next tool call"
+        },
+        {
+          "file": "workflow/deterministic_workflow.py",
+          "line": 135,
+          "note": "live branch of the fixed search/retrieve/analyze/answer workflow"
+        },
+        {
+          "file": "app/routes/query.py",
+          "line": 260,
+          "note": "POST /query; a standalone RAG route that calls the LLM directly and bypasses the agent"
+        },
+        {
+          "file": "benchmark/llm.py",
+          "line": 46,
+          "note": "llm_call; raises unless mode == 'live'"
+        },
+        {
+          "file": "eval/run_judge.py",
+          "line": 138,
+          "note": "LLM-as-judge scoring"
+        }
+      ],
+      "provider_selection": {
+        "mechanism": "app/core/config.py:16-20 loads .env via pydantic-settings; VALID_PROVIDERS = (gemini, groq) at config.py:12",
+        "current_env_value": "LLM_PROVIDER is set in .env, which overrides the code default 'gemini' at config.py:23",
+        "active_model_property": "app/core/config.py:65 settings.active_model"
+      }
+    },
+    "why_the_mcp_servers_hold_no_llm": {
+      "doc_search_tool_chain": [
+        "MCP search_documents -> tools/reference_search.py:49",
+        "  -> app/services/embedder.py:62 embed_query (SentenceTransformer.encode, embedder.py:58)",
+        "  -> app/services/hybrid_retrieval.py:78 hybrid_query_chunks",
+        "     -> app/services/vector_store.py:92 query_chunks (ChromaDB HNSW cosine)",
+        "     -> app/services/hybrid_retrieval.py:42 _bm25_rank (hand-rolled Okapi BM25, stdlib math only)",
+        "     -> app/services/hybrid_retrieval.py:69 _rrf (reciprocal rank fusion, RRF_K=60)",
+        "MCP get_chunk -> tools/chunk_retrieval.py:44 (ChromaDB collection.get only)"
+      ],
+      "embedding_model_is_not_an_llm": "app/services/embedder.py:20 imports SentenceTransformer and embedder.py:58 calls .encode(), producing 384-dim float vectors (all-MiniLM-L6-v2, app/core/config.py:34). There is no prompt, no chat template, no sampling and no token decoding in that file. It is a bi-encoder used for cosine similarity, so it performs no generative inference and is not an LLM.",
+      "no_llm_reranking": "Ranking is dense cosine + BM25 fused positionally by RRF. tools/reference_search.py:93 computes 'relevance' arithmetically from the vector distance. Nothing in the chain asks a model to rerank, rewrite or summarise. Both MCP servers are deterministic processes.",
+      "verification_method": "repo-wide grep for llm|gemini|groq|generate_answer across E:\\week3\\tools\\ returned no matches; the only generator call sites in the repo are the two in app/services/llm_provider.py plus scripts/replay_trace.py:152-171, which is a standalone diagnostic not on any server path"
+    },
+    "offline_path": {
+      "exists": true,
+      "mechanism": "benchmark/config.py:91 reads WEEK7_LLM_MODE, defaulting to 'offline' (benchmark/config.py:22-27)",
+      "effect": "agent/agent_loop.py:341 routes to the deterministic OfflineReasoner.decide() and the live branch at :358 that would call llm_call is never reached, so no LLM runs at all; workflow/deterministic_workflow.py:114-120 returns a fixed string",
+      "answer_source": "eval/offline_answers.py:60 synthesize_grounded_answer returns the highest-scoring fact-bearing sentence verbatim by regex/lexical scoring, not generation"
+    },
+    "conclusion": "The model runs in the host application's own process (app/services/llm_provider.py, reached from agent/agent_loop.py and the FastAPI routes), never inside an MCP server. The two servers captured here are deterministic tool providers over ChromaDB and public package registries."
+  },
+  "limitations": [
+    "Only the stdio transport was captured. HTTP/SSE transports were not exercised.",
+    "The capture is a single successful session per server. Error handling, timeouts, cancellation and tool-list-changed notifications were not exercised, so no 'error' frames exist in this evidence.",
+    "Timings (t_ms) are wall-clock from proxy start and include one-off startup cost: doc-search's first response took ~32s because the server loads chromadb and sentence-transformers at import. Later sessions were much faster.",
+    "doc-search exposes tools/listChanged=false while package-registry exposes listChanged=true; the tools/list_changed notification was not observed from either server within this capture window.",
+    "The 20-tool figure is a sum over two processes. No single MCP session in this evidence exposed a combined 20-tool list, so that combined view remains unverified.",
+    "package-registry reached public registries over the network; results (for example react 19.3.0) reflect the registry state at capture time and will change. Its Cargo tools returned HTTP 403 from crates.io in a separate earlier probe, so those tools may be unreliable from this network.",
+    "This proxy had to resolve the Windows shim npx to npx.cmd because subprocess.Popen does not apply PATHEXT; a host that does not do this will fail to start the package-registry server."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "doc-search": {
+      "command": "E:\\week3\\.venv\\Scripts\\python.exe",
+      "args": [
+        "E:\\week3\\mcp servers\\doc_search_server.py"
+      ],
+      "env": {
+        "DOC_SEARCH_REPO_ROOT": "E:\\week3",
+        "DOC_SEARCH_COLLECTION": "sdk-v3-strategy-b",
+        "DOC_SEARCH_TOP_K": "5"
+      }
+    },
+    "package-registry": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "package-registry-mcp"
+      ]
+    }
+  }
+}
