@@ -4,11 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'models/benchmark_models.dart';
 import 'models/rag_models.dart';
 import 'models/trajectory_models.dart';
+import 'models/week10_race_models.dart';
 import 'services/api_service.dart';
 import 'widgets/benchmark_view.dart';
 import 'widgets/chat_view.dart';
 import 'widgets/sidebar.dart';
 import 'widgets/trajectory_view.dart';
+import 'widgets/week10_race_view.dart';
 
 /// The workspace's top-level tabs. Chat is the product; Evals is the lab that
 /// measures it.
@@ -55,6 +57,12 @@ class _MainWorkspaceState extends State<MainWorkspace> {
   bool _debugMode = true; // Evaluation & debug mode enabled by default
   final Map<String, List<ChatMessage>> _chatHistory = {};
   BenchmarkResult? _benchmarkResult;
+
+  /// Last live Week 10 race result, so reopening the dialog can show it.
+  Week10RaceResult? _week10Result;
+
+  /// True while the Week 10 race dialog is open and executing.
+  bool _isWeek10Running = false;
   bool _isBackendConnected = false;
   Timer? _healthTimer;
   WorkspaceTab _tab = WorkspaceTab.chat;
@@ -121,6 +129,22 @@ class _MainWorkspaceState extends State<MainWorkspace> {
       previousResult: _benchmarkResult,
       onResult: (result) => setState(() => _benchmarkResult = result),
     );
+  }
+
+  /// Opens the live Week 10 Single Agent vs Multi-Agent Squad benchmark.
+  ///
+  /// The dialog owns the run lifecycle (initial / loading / success / error) and
+  /// calls `POST /api/benchmark/week10/race`. This callback only tracks whether
+  /// a race is in flight so the sidebar action can be disabled meanwhile.
+  void _openWeek10Results() {
+    setState(() => _isWeek10Running = true);
+    showWeek10RaceDialog(
+      context,
+      previousResult: _week10Result,
+      onResult: (result) => setState(() => _week10Result = result),
+    ).whenComplete(() {
+      if (mounted) setState(() => _isWeek10Running = false);
+    });
   }
 
   Future<void> _onSendQuestion(String question) async {
@@ -203,6 +227,8 @@ class _MainWorkspaceState extends State<MainWorkspace> {
             onRefresh: _refreshCollections,
             isBackendConnected: _isBackendConnected,
             onOpenBenchmark: _openBenchmarkDialog,
+            onOpenWeek10Results: _openWeek10Results,
+            isWeek10Running: _isWeek10Running,
             activeTab: _tab,
             onSelectTab: (tab) => setState(() => _tab = tab),
           ),
